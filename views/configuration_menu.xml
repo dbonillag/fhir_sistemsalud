@@ -1,0 +1,22 @@
+<odoo>
+
+    <menuitem id="medical_configuration_diagnostic"
+              name="Diagnosticos"
+              sequence="10"
+              action="diagnostic_action_view"
+              parent="medical_root_configuration"/>
+              <!-- groups="medical_base.group_medical_root_menu" -->
+    <menuitem id="medical_configuration_types"
+              name="Tipos de diagnosticos"
+              sequence="20"
+              action="diagnostic_type_action_view"
+              parent="medical_root_configuration"/>
+
+    <menuitem id="medical_configuration_priority"
+              name="Prioridad"
+              sequence="30"
+              action="priority_action_view"
+              parent="medical_root_configuration"/>
+
+    
+</odoo>

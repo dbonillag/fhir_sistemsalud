@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Extending Partner Form View -->
+    <record id="view_partner_form_fe" model="ir.ui.view">
+       <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+
+
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="doctype_id"/>
+                <field name="ref" />
+   
+            </xpath>
+
+            <xpath expr="//group[1]" position="inside">
+                <group name ="fhir">
+                    <group>
+
+                        <field name="name_1" />
+                        <field name="name_2"/>
+                    </group>
+                    <group>
+                        <field name="lastname_1"/>
+                        <field name="lastname_2"/>
+                        <field name="gender" />
+                    </group>
+
+                </group>
+
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

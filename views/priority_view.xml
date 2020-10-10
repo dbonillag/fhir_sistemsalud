@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id = "priority_action_view" model="ir.actions.act_window">
+        <field name = "name">Prioridad</field>
+        <field name = "res_model">fhir.priority</field>
+        <field name = "view_type">form</field>
+        <field name = "view_mode">list,form</field>
+    </record>
+
+    <record id="priority_tree_view" model="ir.ui.view">
+        <field name="name">Prioridad</field>
+        <field name="model">fhir.priority</field>
+        <field name="arch" type="xml">
+            <tree  string="Prioridad">
+                <field name="internal_code" />
+                <field name="name" />
+                <field name="i15d_code" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="priority_form_view" model="ir.ui.view">
+        <field name="name">Prioridad</field>
+        <field name="model">fhir.priority</field>
+        <field name="arch" type="xml">
+            <form >
+                <sheet>
+                    <group>
+                        <field name="internal_code" />
+                        <field name="name" />
+                        <field name="i15d_code" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+</odoo>

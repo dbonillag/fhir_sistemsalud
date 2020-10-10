@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fhir_service_request,access_fhir_service_request,model_fhir_service_request,,1,1,1,1
+access_fhir_contact,access_fhir_contact,model_fhir_contact,,1,1,1,1
+access_fhir_diagnostic,access_fhir_diagnostic,model_fhir_diagnostic,,1,1,1,1
+access_fhir_priority,access_fhir_priority,model_fhir_priority,,1,1,1,1
+access_fhir_procedures,access_fhir_procedures,model_fhir_procedures,,1,1,1,1
+access_fhir_diagnostic_type,access_fhir_diagnostic_type,model_fhir_diagnostic_type,,1,1,1,1
+access_fhir_doctype,access_fhir_doctype,model_fhir_doctype,,1,1,1,1
+access_fhir_clinical_record,access_fhir_clinical_record,model_fhir_clinical_record,,1,1,1,1
+access_fhir_diagnoses,access_fhir_diagnoses,model_fhir_diagnoses,,1,1,1,1

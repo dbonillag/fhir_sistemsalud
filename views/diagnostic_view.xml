@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record id = "diagnostic_action_view" model="ir.actions.act_window">
+		<field name = "name">Diagnosticos</field>
+		<field name = "res_model">fhir.diagnostic</field>
+		<field name = "view_type">form</field>
+		<field name = "view_mode">list,form</field>
+	</record>
+
+	<record id="diagnostic_tree_view" model="ir.ui.view">
+        <field name="name">Diagnosticos</field>
+        <field name="model">fhir.diagnostic</field>
+        <field name="arch" type="xml">
+            <tree  string="Diagnosticos">
+
+				<field name="internal_code" />
+				<field name="name" />
+				<field name="cie10_code" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="diagnostic_form_view" model="ir.ui.view">
+        <field name="name">Diagnosticos</field>
+        <field name="model">fhir.diagnostic</field>
+        <field name="arch" type="xml">
+            <form >
+            	<sheet>
+            		<group>
+						<field name="internal_code" />
+						<field name="name" />
+						<field name="cie10_code" />
+					</group>
+				</sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+</odoo>

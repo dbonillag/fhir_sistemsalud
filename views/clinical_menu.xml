@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <menuitem id="medical_root"
+              name="Salud"
+              sequence="10"/>
+              <!-- web_icon="medical_base,static/description/icon.png" -->
+              <!-- groups="medical_base.group_medical_root_menu" -->
+              
+    <menuitem id="medical_root_request"
+              name="Solicitud de servicio"
+              action="service_request_action_view"
+              parent="medical_root"
+              sequence="1"/>
+
+    <menuitem id="medical_root_records"
+              name="Registros clinicos"
+              parent="medical_root"
+              action="clinical_record_action_view"
+              sequence="10"/>
+
+
+    <menuitem id="medical_root_configuration"
+              name="Configuración"
+              parent="medical_root"
+              sequence="30"/>
+
+</odoo>
