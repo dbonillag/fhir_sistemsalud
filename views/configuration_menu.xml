@@ -18,5 +18,11 @@
               action="priority_action_view"
               parent="medical_root_configuration"/>
 
+    <menuitem id="medical_configuration_server"
+              name="Servidor FHIR"
+              sequence="40"
+              action="server_action_view"
+              parent="medical_root_configuration"/>
+
     
 </odoo>

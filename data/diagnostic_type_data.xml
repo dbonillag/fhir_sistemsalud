@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="diagnostic_type_unconfirmed" model="fhir.diagnostic_type">
+            <field name="name">Sin confirmar</field>
+            <field name="internal_code">1</field>
+            <field name="i15d_code">unconfirmed</field>
+        </record> 
+
+        <record id="diagnostic_type_provisional" model="fhir.diagnostic_type">
+            <field name="name">Provisonal</field>
+            <field name="internal_code">2</field>
+            <field name="i15d_code">provisional</field>
+        </record> 
+
+    
+        <record id="diagnostic_type_differential" model="fhir.diagnostic_type">
+            <field name="name">Diferenciado</field>
+            <field name="internal_code">3</field>
+            <field name="i15d_code">differential</field>
+        </record>
+
+        <record id="diagnostic_type" model="fhir.diagnostic_type">
+            <field name="name">Confirmado</field>
+            <field name="internal_code">4</field>
+            <field name="i15d_code">confirmed</field>
+        </record> 
+
+        <record id="diagnostic_type" model="fhir.diagnostic_type">
+            <field name="name">Refutado</field>
+            <field name="internal_code">5</field>
+            <field name="i15d_code">refuted</field>
+        </record> 
+
+        <record id="diagnostic_type" model="fhir.diagnostic_type">
+            <field name="name">Error diagnostico</field>
+            <field name="internal_code">6</field>
+            <field name="i15d_code">entered-in-error</field>
+        </record> 
+    </data>
+</odoo>

@@ -7,6 +7,7 @@ from odoo.exceptions import ValidationError
 class DiagnosticType(models.Model):
     _name = "fhir.diagnostic_type"
     _description = "description"
+    _rec_name = 'name'
 
     internal_code = fields.Char(string = 'Codigo interno')
     name = fields.Char(string = 'Nombre') 

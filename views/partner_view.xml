@@ -8,25 +8,35 @@
 
 
             <xpath expr="//field[@name='name']" position="before">
-                <field name="doctype_id"/>
-                <field name="ref" />
+                <field name="doctype_id" placeholder = "Tipo documento"/>
+                <field name="ref" placeholder = "Identificación"/>
    
             </xpath>
 
-            <xpath expr="//group[1]" position="inside">
+            <xpath expr="//field[@name='name']" position="attributes">
+               
+                <attribute name="required">0</attribute>
+
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string = "Salud">
                 <group name ="fhir">
                     <group>
 
-                        <field name="name_1" />
-                        <field name="name_2"/>
+                        <field name="name_1" attrs = "{'invisible' : [('company_type', '=', 'company')],'required': [('company_type', '=', 'person')]}"/>
+                        <field name="name_2" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
+                        <field name="is_patient" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
+                        <field name="is_insurer" attrs = "{'invisible' : [('company_type', '=', 'person')]}"/>
                     </group>
                     <group>
-                        <field name="lastname_1"/>
-                        <field name="lastname_2"/>
-                        <field name="gender" />
+                        <field name="lastname_1" attrs = "{'invisible' : [('company_type', '=', 'company')],'required': [('company_type', '=', 'person')]}"/>
+                        <field name="lastname_2" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
+                        <field name="gender"  attrs = "{'invisible' : [('company_type', '=', 'company')],'required': [('company_type', '=', 'person')]}"/>
+                        <field name="is_doctor"  attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
                     </group>
 
                 </group>
+                </page>
 
             </xpath>
 

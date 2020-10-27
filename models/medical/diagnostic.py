@@ -4,10 +4,11 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
-class Priority(models.Model):
-    _name = "fhir.priority"
+class Diagnostic(models.Model):
+    _name = "fhir.diagnostic"
     _description = "description"
+    _rec_name = 'name'
 
     internal_code = fields.Char(string = 'Codigo interno')
     name = fields.Char(string = 'Nombre') 
-    i15d_code = fields.Char(string = 'Codigo i15d') 
+    cie10_code = fields.Char(string = 'Codigo cie10')  

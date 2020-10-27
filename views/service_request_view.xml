@@ -20,6 +20,7 @@
 				<field name="organization_id" />
 				<field name="entry_date" />
 				<field name="discharge_date" />
+				<field name="state" />
             </tree>
         </field>
     </record>
@@ -28,16 +29,34 @@
         <field name="name">Solicitud de servicio</field>
         <field name="model">fhir.service_request</field>
         <field name="arch" type="xml">
-            <form delete='false' edit='false'>
-            	<sheet>
+            <form >
+            	<header>
+            		<field name='state' invisible="1"/>
+            		<button name="open_service" string = "Abrir Solicitud" type="object" class="oe_highlight" attrs = "{'invisible' : [('state', '!=', 'draft')]}"/>
+				</header>
+				<sheet>
             		<group>
-		            	<field name="code" />
-						<field name="patient_id" />
-						<field name="organization_id" />
-						<field name="entry_date" />
-						<field name="discharge_date" />
-						<field name="contact_ids" />
+
+            			<group string = 'Paciente'>
+            				<field name='patient_id' domain = "[('is_patient', '=', True)]" required='1' attrs = "{'readonly' : [('state', '!=', 'draft')]}"/>
+            				<field name='organization_id' domain = "[('is_insurer', '=', True)]" required='1' attrs = "{'readonly' : [('state', '!=', 'draft')]}"/>
+            			</group>
+            			<group string='Entrada/Salida'>
+            				<field name='entry_date' readonly = '1'/>
+            				<field name='discharge_date' readonly = '1'/>
+            			</group>
+
 					</group>
+
+					<group string = 'Contactos/Parientes'>
+						<field name="contact_ids" nolabel = "1" attrs = "{'readonly' : [('state', '!=', 'draft')]}">
+							<tree editable="bottom">
+	                            <field name = "partner_id" required = "1" />
+	                            <field name = "relationship" required = "1"/>
+	                        </tree>
+						</field>
+					</group>
+					
 				</sheet>
             </form>
         </field>

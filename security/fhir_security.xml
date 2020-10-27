@@ -4,21 +4,21 @@
 <odoo>
 
     <record id="group_fhir_medical" model="res.groups">
-        <field name="name">Partner Display</field>
+        <field name="name">[Salud] Integrantes</field>
     </record>
 
     <record id="group_fhir_administrator" model="res.groups">
-        <field name="name">Partner Display</field>
+        <field name="name">[Salud] Administrativos</field>
         <field name="implied_ids" eval="[(4, ref('group_fhir_medical'))]"/>
     </record>
 
     <record id="group_fhir_nurse" model="res.groups">
-        <field name="name">Partner List</field>
+        <field name="name">[Salud] Enfermería</field>
         <field name="implied_ids" eval="[(4, ref('group_fhir_medical'))]"/>
     </record>
 
     <record id="group_fhir_doctor" model="res.groups">
-        <field name="name">Partner Manager</field>
+        <field name="name">[Salud] Médicos</field>
         <field name="implied_ids" eval="[(4, ref('group_fhir_medical'))]"/>
     </record>
 

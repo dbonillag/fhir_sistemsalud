@@ -6,7 +6,7 @@
     "author": "Daniel Bonilla",
     "category": "Medical",
     "website": "https://github.com/dbonillag/fhir_sistemsalud",
-    #"depends": [],
+    "depends": ["base", "product"],
     "data": [
         "security/ir.model.access.csv",
         "views/service_request_view.xml",
@@ -16,10 +16,14 @@
         "views/partner_view.xml",
         "views/priority_view.xml",
         "views/clinical_menu.xml",
-        "views/configuration_menu.xml"
+        "views/settings.xml",
+        "views/configuration_menu.xml",
+        "data/sequence_data.xml",
+        "data/test_data.xml",
+        "data/diagnostic_type_data.xml"
     ],
     # "demo": [],
     "application": True,
     "installable": True,
-    "auto_install": False,
+    "auto_install": False
 }

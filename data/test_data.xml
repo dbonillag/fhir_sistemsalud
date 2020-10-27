@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+     
+
+        <record model="ir.cron" id="cron_prueba_fhir">
+            <field name='name'>[FHIR] Test</field>
+            <field name='interval_number'>1</field>
+            <field name='interval_type'>minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="False"/>
+            <field name="doall" eval="False" />
+            <field name="model_id" ref="model_fhir_i15d_patient"/>
+            <field name="code">model.test_post_patient()</field>
+            <field name="state">code</field>
+        </record>
+       
+    </data>
+</odoo>
