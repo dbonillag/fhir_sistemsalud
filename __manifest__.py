@@ -8,6 +8,7 @@
     "website": "https://github.com/dbonillag/fhir_sistemsalud",
     "depends": ["base", "product"],
     "data": [
+        "security/fhir_security.xml",
         "security/ir.model.access.csv",
         "views/service_request_view.xml",
         "views/clinical_record_view.xml",
@@ -20,7 +21,8 @@
         "views/configuration_menu.xml",
         "data/sequence_data.xml",
         "data/test_data.xml",
-        "data/diagnostic_type_data.xml"
+        "data/diagnostic_type_data.xml",
+        "data/priority_data.xml"
     ],
     # "demo": [],
     "application": True,

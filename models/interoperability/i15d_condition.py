@@ -12,7 +12,13 @@ class I15dCondition(models.Model):
 
 	_inherit = 'fhir.i15d.base'
 
-	#encuonter_id = fields.Many2one("fhir.i15d.encounter", inverse_name='procedures_ids', string = "encuentro")
+	_rec_name = 'diagnostic'
+
+	text = fields.Text(string= 'Texto', readonly = True)
+	diagnostic_type = fields.Char(string = 'Tipo', readonly = True)
+	diagnostic = fields.Char(string = 'Nombre diagnostico', readonly = True)
+	diagnostic_code = fields.Char(string = 'Codigo CIE10', readonly = True)
+	encuonter_id = fields.Many2one("fhir.i15d.encounter", inverse_name='diagnoses_ids', string = "encuentro")
 
 	@api.model
 	def build_condition(self, diagnostic):
@@ -41,7 +47,7 @@ class I15dCondition(models.Model):
 		dict_text = {}
 
 		dict_text['status'] = 'additional'
-		dict_text['div'] = "<div xmlns=\"http://www.w3.org/1999/xhtml\">TIPO DIAGNOSTICO: %s</div>"%diagnostic.type_id.name
+		dict_text['div'] = "<div xmlns=\"http://www.w3.org/1999/xhtml\">PRIORIDAD: %s</div>"%diagnostic.priority.name
 		return dict_text
 
 	def build_verification_status(self, diagnostic):
@@ -76,3 +82,18 @@ class I15dCondition(models.Model):
 		dict_json['type'] = 'Patient'
 		dict_json['display'] = '%s (%s)'%(clinical_record.patient_id.name, clinical_record.patient_id.ref) 
 		return dict_json
+
+	def create_condition_list(self, diagnosis):
+
+		condition_list = []
+		
+		for dx in diagnosis:
+			res = self.create({
+					'text' : dx['text']['div'],
+					'diagnostic_type' : dx['verificationStatus']['coding'][0]['display'],
+					'diagnostic' : dx['code']['coding'][0]['display'],
+					'diagnostic_code' : dx['code']['coding'][0]['code']
+				})
+			condition_list.append(res.id)
+
+		return [(6,0,condition_list)]

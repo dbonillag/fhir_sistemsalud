@@ -13,7 +13,15 @@ class I15dProcedure(models.Model):
 
 	_inherit = 'fhir.i15d.base'
 
-	#encuonter_id = fields.Many2one("fhir.i15d.encounter",  inverse_name = 'diagnoses_ids', string = "encuentro")
+	_rec_name = 'name'
+
+	text = fields.Text(string = "texto", readonly = True)
+
+	name = fields.Char(string = "Procedimiento", readonly = True)
+
+	code = fields.Char(string = "Codigo", readonly = True)
+
+	encuonter_id = fields.Many2one("fhir.i15d.encounter",  inverse_name = 'procedures_ids', string = "encuentro")
 
 	@api.model
 	def build_procedure(self, procedure):
@@ -66,3 +74,18 @@ class I15dProcedure(models.Model):
 		dict_json['type'] = 'Patient'
 		dict_json['display'] = '%s (%s)'%(clinical_record.patient_id.name, clinical_record.patient_id.ref) 
 		return dict_json
+
+	def create_procedure_list(self, procedures):
+
+		procedure_list = []
+		
+		for procedure in procedures:
+			res = self.create({
+					'text' : procedure['text']['div'],
+					
+					'name' : procedure['code']['coding'][0]['display'],
+					'code' : procedure['code']['coding'][0]['code']
+				})
+			procedure_list.append(res.id)
+
+		return [(6,0,procedure_list)]

@@ -22,17 +22,20 @@ class ServiceRequest(models.Model):
 
     @api.multi
     def open_service(self):
-    	cr_new = self.env['fhir.clinical_record'].create({
-    		'patient_id' : self.patient_id.id,
-    		'service_id' : self.id
-    	})
-    	self.write({
-    		'state' : 'open'
-    	})
+        cr_new = self.env['fhir.clinical_record'].sudo().create({
+        	'patient_id' : self.patient_id.id,
+        	'service_id' : self.id
+        })
+
+        self.code = self.env['ir.sequence'].next_by_code('fhir.service_request')
+
+        self.write({
+        	'state' : 'open'
+        })
 
 
-    	view_id = self.env.ref('fhir_sistemsalud.clinical_record_form_view')
-    	return {
+        view_id = self.env.ref('fhir_sistemsalud.clinical_record_form_view')
+        return {
             'type': 'ir.actions.act_window',
             'res_model': 'fhir.clinical_record',
             'view_id': view_id.id,

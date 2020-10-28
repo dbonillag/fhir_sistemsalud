@@ -18,21 +18,17 @@ class I15dEncounter(models.Model):
 
 	_inherit = 'fhir.i15d.base'
 
-	id_server = fields.Char(string = "Id en el servidor FHIR")
+	_rec_name = 'atention_date'
 
-	code = fields.Char(string = 'Codigo')
-	patient_id = fields.Char(string = 'Id paciente')
-	atention_date = fields.Datetime(string = u"Fecha de atención")
-	text = fields.Text(string = 'Texto')
-	diagnoses_ids = fields.One2many("fhir.i15d.condition", inverse_name = "encounter_id", string = 'Diagnosticos')
-	procedures_ids = fields.One2many("fhir.i15d.procedure", string = "Procedimientos", inverse_name = 'encounter_id')
+	id_server = fields.Char(string = "Id en el servidor FHIR", readonly = True)
 
-    
-    
+	atention_date = fields.Datetime(string = u"Fecha de atención", readonly = True)
+	text = fields.Text(string = 'Texto', readonly = True)
+	diagnoses_ids = fields.One2many("fhir.i15d.condition", string = 'Diagnosticos', inverse_name = 'encuonter_id', readonly = True)
+	procedures_ids = fields.One2many("fhir.i15d.procedure", string = "Procedimientos", inverse_name = 'encuonter_id', readonly = True)
+	cr_id = fields.Many2one("fhir.clinical_record", string = "Historias en la red", inverse_name = 'i15d_encounter_ids', readonly = True)
 
-
-
-
+   
 	@api.model
 	def post_encounter(self, clinical_record):
 
@@ -151,4 +147,44 @@ class I15dEncounter(models.Model):
 		}
 
 
-	
+	def get_encounter_by_patient(self, patient):
+
+		headers = self.get_headers()
+		url = self.get_url() + ENDPOINT + '?subject=Patient/' + patient.id_fhir
+		response = requests.request("GET", url, headers=headers, data ={})
+
+		
+		if str(response.status_code)[:1] != '2' :
+			_logger.info(response.text.encode('utf8'))
+			raise ValidationError("Ocurrió un error al enviar la historia clinica por interoperabilidad")
+			
+		response_dict = json.loads(response.text.encode('utf8'))
+
+		entry = response_dict.get('entry', False)
+		if entry:
+			_logger.info(entry)
+			return self.create_encounter_list(entry)
+		return False 
+
+	def create_encounter_list(self, encounters):
+
+		i15d_encounter_list = []
+
+		for encounter in encounters:
+			i15d_encounter = self.create_encounter(encounter['resource'])
+			i15d_encounter_list.append((0,0,i15d_encounter))
+		return i15d_encounter_list
+
+	def create_encounter(self, encounter):
+		new_encounter = {}
+		new_encounter['atention_date'] = encounter['period']['start']
+		new_encounter['text'] = encounter['text']['div']
+		diagnosis = [dx  for dx in encounter['contained'] if dx['resourceType'] == 'Condition' ]
+		procedure = [dx  for dx in encounter['contained'] if dx['resourceType'] == 'Procedure' ]
+		# diagnosis_ids = [dx.id for dx in self.env['fhir.i15d.condition'].create_condition_list()]
+		
+		# procedure_ids = [dx.id for dx in self.env['fhir.i15d.procedure'].create_procedure_list()]
+		new_encounter['diagnoses_ids'] = self.env['fhir.i15d.condition'].create_condition_list(diagnosis)
+		new_encounter['procedures_ids'] = self.env['fhir.i15d.procedure'].create_procedure_list(procedure)
+		return new_encounter
+

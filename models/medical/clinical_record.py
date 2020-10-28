@@ -27,9 +27,7 @@ class ClinicalRecord(models.Model):
     id_fhir = fields.Char(string = "Id en el servidor FHIR")
 
     #lista de registros clinicos del mismo paciente obtenidos por interoperabilidad
-    i15d_encounter_ids = fields.Many2one("fhir.i15d.encounter", string = "Historia clinica en la red")
-
-
+    i15d_encounter_ids = fields.One2many("fhir.i15d.encounter", string = "Historia clinica en la red", inverse_name = 'cr_id')
 
 
     @api.multi
@@ -38,7 +36,10 @@ class ClinicalRecord(models.Model):
             'discharge_date' : datetime.today(),
             'state' : 'close'
         })
+
+
         self.write({
+            'code' : self.env['ir.sequence'].next_by_code('fhir.clinical_record'),
             'state' : 'accepted'
         })
 
@@ -46,7 +47,15 @@ class ClinicalRecord(models.Model):
         self.write({ 'id_fhir' : self.env['fhir.i15d.encounter'].post_encounter(self) })
 
     @api.multi
-    def get_i15d_encounters(self):
+    def search_network(self):
+
+        for encounter_id in self.i15d_encounter_ids:
+            self.write({'i15d_encounter_ids' : [(2, encounter_id.id)]})
         # obtiene los registros por interoperabilidad
-        self.i15d_encounter_ids = self.env['fhir.i15d.encounter'].get_encounters(self.patient_id)
+        i15d_encounter_ids = self.env['fhir.i15d.encounter'].get_encounter_by_patient(self.patient_id)
+        _logger.info(u'%s'%i15d_encounter_ids)
+        if i15d_encounter_ids:
+            self.write({'i15d_encounter_ids' : i15d_encounter_ids})
+
+
  

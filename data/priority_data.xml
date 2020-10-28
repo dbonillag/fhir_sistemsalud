@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="prority_principal" model="fhir.priority">
+            <field name="name">Principal</field>
+            <field name="internal_code">1</field>
+            <field name="i15d_code">principal</field>
+        </record> 
+
+        <record id="prority_related" model="fhir.priority">
+            <field name="name">Relacionado</field>
+            <field name="internal_code">2</field>
+            <field name="i15d_code">related</field>
+        </record> 
+
+    
+        <record id="priority_complication" model="fhir.priority">
+            <field name="name">Diferenciado</field>
+            <field name="internal_code">3</field>
+            <field name="i15d_code">differential</field>
+        </record>
+
+        <record id="priority_death" model="fhir.priority">
+            <field name="name">Muerte</field>
+            <field name="internal_code">4</field>
+            <field name="i15d_code">death</field>
+        </record> 
+    </data>
+</odoo>

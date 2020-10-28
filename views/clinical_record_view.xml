@@ -33,13 +33,14 @@
 
             	<header>
             		<button name="close_encounter" string = "Finalizar consulta" type="object" class="oe_highlight"/>
+            		<button name="search_network" string = "Buscar en la red" type="object" class="oe_highlight"/>
             	</header>
             	<sheet>
             		<field name="state" invisible="1"/>
             		<group col='4'>
             			<field name="code" />  
             			<field name="patient_id" readonly = '1' />
-					    <field name="doctor_id" readonly = '1'/>
+					    <field name="doctor_id"/>
 					    <field name="atention_date"/>
 
 					</group>
@@ -66,6 +67,15 @@
 						   	    <field name="activity_id" required = "1"/>
 							    <field name="quantity" required = "1"/>
 							    <field name="notes" />
+							</tree>
+					    </field>
+					</group>
+
+					<group string= "Historias en la red">
+					    <field name="i15d_encounter_ids" nolabel = "1"  >
+					    	<tree>
+						   	    <field name="atention_date" required = "1"/>
+							    
 							</tree>
 					    </field>
 					</group>

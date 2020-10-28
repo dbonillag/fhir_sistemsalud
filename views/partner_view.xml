@@ -6,16 +6,22 @@
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
 
+            <xpath expr="//form//sheet" position="before">
+                <header>
+                    <button name="search_network" string = "Buscar en la red" type="object" class="oe_highlight" />
+                </header>
+            </xpath>
+            
 
             <xpath expr="//field[@name='name']" position="before">
                 <field name="doctype_id" placeholder = "Tipo documento"/>
-                <field name="ref" placeholder = "Identificación"/>
+                <field name="ref" placeholder = "Identificacion" required='1'/>
    
             </xpath>
 
             <xpath expr="//field[@name='name']" position="attributes">
                
-                <attribute name="required">0</attribute>
+                <attribute name="required" eval="False" />
 
             </xpath>
             <xpath expr="//notebook" position="inside">
@@ -23,15 +29,15 @@
                 <group name ="fhir">
                     <group>
 
-                        <field name="name_1" attrs = "{'invisible' : [('company_type', '=', 'company')],'required': [('company_type', '=', 'person')]}"/>
+                        <field name="name_1" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
                         <field name="name_2" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
                         <field name="is_patient" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
                         <field name="is_insurer" attrs = "{'invisible' : [('company_type', '=', 'person')]}"/>
                     </group>
                     <group>
-                        <field name="lastname_1" attrs = "{'invisible' : [('company_type', '=', 'company')],'required': [('company_type', '=', 'person')]}"/>
+                        <field name="lastname_1" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
                         <field name="lastname_2" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
-                        <field name="gender"  attrs = "{'invisible' : [('company_type', '=', 'company')],'required': [('company_type', '=', 'person')]}"/>
+                        <field name="gender"  attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
                         <field name="is_doctor"  attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
                     </group>
 

@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data noupdate="1">
-        <!-- Nota de débito sequences-->
+        
         <record id="sequence_order_payment" model="ir.sequence">
             <field name="name">Codigo orden de servicio</field>
             <field name="code">fhir.service_request</field>
             <field name="prefix">OS</field>
+            <field name="number_next" eval="1" />
+            <field name="number_increment" eval="1" />
+            <field name="implementation">standard</field>
+            <field name="company_id" eval="1" />
+            <field name="padding">10</field>
+        </record> 
+        <record id="sequence_record" model="ir.sequence">
+            <field name="name">Codigo registros clinicos</field>
+            <field name="code">fhir.clinical_record</field>
+            <field name="prefix">CR</field>
             <field name="number_next" eval="1" />
             <field name="number_increment" eval="1" />
             <field name="implementation">standard</field>

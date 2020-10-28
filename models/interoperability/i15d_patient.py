@@ -130,3 +130,41 @@ class I15dPatient(models.Model):
 
 		return 
 
+	def get_patient(self, ref):
+
+		headers = self.get_headers()
+		url = self.get_url() + ENDPOINT + '?identifier=' + ref
+		response = requests.request("GET", url, headers=headers, data ={})
+
+		
+		if str(response.status_code)[:1] != '2' :
+			_logger.info(response.text.encode('utf8'))
+			raise ValidationError("Ocurrió un error al obtener el paciente")
+			
+		response_dict = json.loads(response.text.encode('utf8'))
+
+
+		_logger.info(response_dict['entry'])
+
+		entry = response_dict.get('entry', False)
+		if entry:
+			return self.create_patient(entry[0]['resource'])
+		return False
+
+	def create_patient(self, patient_dict):
+		# crea un diccionario con los datos necesarios para crear un paciente nuevo en el sistema
+		return {
+			'ref' : patient_dict['identifier'][0]['value'],
+			'name_1' : patient_dict['name'][0]['given'][0],
+			'name_2' : patient_dict['name'][0]['given'][1] if len(patient_dict['name'][0]['given']) == 3 else '',
+			'lastname_2' : patient_dict['name'][0]['given'][2] if len(patient_dict['name'][0]['given']) == 3 else patient_dict['name'][0]['given'][1],
+			'lastname_1' : patient_dict['name'][0]['family'],
+			'gender' : patient_dict['gender'],
+			'is_patient' : True,
+			'id_fhir' : patient_dict['id'],
+			'name' : patient_dict['name'][0]['text']
+		}	
+
+		
+
+

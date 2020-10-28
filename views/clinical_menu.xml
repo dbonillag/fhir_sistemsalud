@@ -4,6 +4,7 @@
 
     <menuitem id="medical_root"
               name="Salud"
+              groups="group_fhir_medical"
               sequence="10"/>
               <!-- web_icon="medical_base,static/description/icon.png" -->
               <!-- groups="medical_base.group_medical_root_menu" -->
@@ -22,6 +23,7 @@
 
 
     <menuitem id="medical_root_configuration"
+              groups="group_fhir_administrator"
               name="Configuración"
               parent="medical_root"
               sequence="30"/>
