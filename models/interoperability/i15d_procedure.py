@@ -13,6 +13,8 @@ class I15dProcedure(models.Model):
 
 	_inherit = 'fhir.i15d.base'
 
+	#encuonter_id = fields.Many2one("fhir.i15d.encounter",  inverse_name = 'diagnoses_ids', string = "encuentro")
+
 	@api.model
 	def build_procedure(self, procedure):
 	# devuelve un diccionario con el procedimiento construido de tal forma para que sea dependiente del encuentro

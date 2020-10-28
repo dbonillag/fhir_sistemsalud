@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
 
-## AADTokenCredentials for multi-factor authentication
-from msrestazure.azure_active_directory import AADTokenCredentials
-
-## Other required imports
-import adal, uuid, time
-
 import json
 
 
@@ -15,34 +9,83 @@ import requests
 
 
 from openerp import fields, models, api
+from openerp.exceptions import ValidationError
 
 import logging
 _logger = logging.getLogger(__name__)
 
 
+ENDPOINT = "/Patient"
 
 class I15dPatient(models.Model):
+	# clase encargada de servir de intermediario entre el modelo de datos del paciente del sistema y el paciente del servidor FHIR
 	_name = 'fhir.i15d.patient'
 
 	_inherit = 'fhir.i15d.base'
 
-	# def authenticate_client_key(self):
-	#     """
-	#     Authenticate using service principal w/ key.
-	#     """
-	#     authority_host_uri = 'https://login.microsoftonline.com'
-	#     tenant = '59e07b78-8abd-4f0c-ab90-f8bdd2b2d530'
-	#     authority_uri = authority_host_uri + '/' + tenant
-	#     resource_uri = 'https://sistemsalud-fhir.azurehealthcareapis.com'
-	#     client_id = 'e4b31336-af16-491d-84ae-25f2cafc0b3d'
-	#     client_secret = 'K~G0hcTshz_58_B8IA~KA6ba76wXZktsCK'
+	@api.model
+	def post_patient(self, patient):
 
-	#     context = adal.AuthenticationContext(authority_uri, api_version=None)
-	#     mgmt_token = context.acquire_token_with_client_credentials(resource_uri, client_id, client_secret)
-	#     credentials = AADTokenCredentials(mgmt_token, client_id)
+		headers = self.get_headers()
+		patient_dict= self.build_patient(patient)
+		
+		url = self.get_url() + ENDPOINT
 
-	#     return credentials
+		patient_json = json.dumps(patient_dict)
+		
+		_logger.info(patient_json)
 
+		response = requests.request("POST", url, headers=headers, data =patient_json)
+
+		_logger.info(response.text.encode('utf8'))
+
+		if str(response.status_code)[:1] != '2' :
+			
+			raise ValidationError(u"Ocurrió un error al enviar el paciente por interoperabilidad: %s"%response.text.encode('utf8'))
+			
+		response_dict = json.loads(response.text.encode('utf8'))
+
+		return response_dict['id']
+
+
+	def build_patient(self, patient):
+		dict_base = {}
+		dict_base['id'] = str(patient.id)
+		dict_base['resourceType'] = "Patient"
+		dict_base['identifier'] = self.build_identifier_list(patient)
+		dict_base['active'] = True
+		dict_base['name'] = self.build_name_list(patient)
+		dict_base['gender'] = patient.gender
+		return dict_base
+
+
+	def build_identifier_list(self, patient):
+		#construye la sección respectiva al identificador natural del registro clinico
+		dict_id = {}
+		dict_id['use'] = 'official'
+		dict_id['value'] = patient.ref
+		
+
+
+		return [dict_id]
+
+	def build_name_list(self, patient):
+
+		given = []
+		given.append(patient.name_1) if patient.name_1 else ''
+		given.append(patient.name_2) if patient.name_2 else ''
+		given.append(patient.lastname_2) if patient.lastname_2 else ''
+
+
+		official_name = {
+			"use" : 'official',
+			'text' : patient.name,
+			'family' : patient.lastname_1,
+			'given' : given
+
+		}
+
+		return [official_name]
 
 	def test_post_patient(self):
 		

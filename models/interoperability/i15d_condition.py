@@ -12,6 +12,8 @@ class I15dCondition(models.Model):
 
 	_inherit = 'fhir.i15d.base'
 
+	#encuonter_id = fields.Many2one("fhir.i15d.encounter", inverse_name='procedures_ids', string = "encuentro")
+
 	@api.model
 	def build_condition(self, diagnostic):
 	# devuelve un diccionario con la condicion(diagnostico) construida de tal forma para que sea dependiente del encuentro

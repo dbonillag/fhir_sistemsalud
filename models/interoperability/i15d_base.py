@@ -11,13 +11,13 @@ class I15dBase(models.Model):
 
 	def get_url(self):
 		ICPSudo = self.env['ir.config_parameter'].sudo()
-		token = ICPSudo.get_param('fhir.server_url')
+		token = ICPSudo.get_param('fhir.fhir_server_url')
 		return token
 
 
 	def get_headers(self):
 		ICPSudo = self.env['ir.config_parameter'].sudo()
-		token = ICPSudo.get_param('fhir.access_token')
+		token = ICPSudo.get_param('fhir.fhir_access_token')
 		return {
 			'Authorization': 'Bearer '+token,
 			'Content-Type': 'application/json'

@@ -21,11 +21,11 @@ class I15dEncounter(models.Model):
 	id_server = fields.Char(string = "Id en el servidor FHIR")
 
 	code = fields.Char(string = 'Codigo')
-    patient_id = fields.Char(string = 'Id paciente')
-    atention_date = fields.Datetime(string = u"Fecha de atención")
-    text = fields.Text(string = 'Texto')
-    diagnoses_ids = fields.One2many("fhir.i15d.condition", inverse_name = "clinical_record_id", string = 'Diagnosticos')
-    procedures_ids = fields.One2many("fhir.i15d.procedures", string = "Procedimientos", inverse_name = 'cr_id')
+	patient_id = fields.Char(string = 'Id paciente')
+	atention_date = fields.Datetime(string = u"Fecha de atención")
+	text = fields.Text(string = 'Texto')
+	diagnoses_ids = fields.One2many("fhir.i15d.condition", inverse_name = "encounter_id", string = 'Diagnosticos')
+	procedures_ids = fields.One2many("fhir.i15d.procedure", string = "Procedimientos", inverse_name = 'encounter_id')
 
     
     
@@ -56,7 +56,7 @@ class I15dEncounter(models.Model):
 		response_dict = json.loads(response.text.encode('utf8'))
 
 
-		return response_dict.id
+		return response_dict['id']
 
 	def build_encounter(self, clinical_record):
 		dict_base = {}
@@ -151,4 +151,4 @@ class I15dEncounter(models.Model):
 		}
 
 
-	def get_encounters(self, patient_id)
+	

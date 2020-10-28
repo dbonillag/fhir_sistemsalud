@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <record id = "server_action_view" model="ir.actions.act_window">
-        <field name = "name">Servidor FHIR</field>
-        <field name = "res_model">res.config.settings</field>
-        
-        <field name = "view_mode">form</field>
-        <field name = "target">inline</field>
-        <field name = "context">{'module' : 'fhir_sistemsalud'}</field>
-    </record>
+    
 
-    <record id="server_form_view" model="ir.ui.view">
-        <field name="name">Servidor FHIR</field>
+    <record id="fhir_config_settings_view_form" model="ir.ui.view">
+        <field name="name">fhir.config.settings</field>
         <field name="model">res.config.settings</field>
+        
         <field name="arch" type="xml">
             <form >
                 <sheet>
@@ -21,13 +15,41 @@
                             <button class="oe_highlight" name="cancel" string="Cancelar" type="object"/>
                     </header>
                     <group>
-                        <field name="server_url" />
-                        <field name="access_token" password="True"/>
+                        <field name="fhir_server_url" />
+                        <field name="fhir_access_token" password="True"/>
                         
                     </group>
                 </sheet>
             </form>
+
+<!--             <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block"
+                     data-string="Medical" data-key="configuration"
+                     groups="fhir_sistemsalud.group_fhir_administrator">
+                    <h2><i class="fa fa-user-md" aria-hidden="true"/> Servidor FHIR</h2>
+                    <div class="row mt16 o_settings_container" id="fhir_server">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            
+                              <field name="fhir_server_url"/>
+                                <field name="fhir_access_token"/> 
+                                
+                           
+                        </div>
+                    </div>
+                    
+                </div>
+            </xpath> -->
         </field>
+    </record>
+
+    <record id = "server_action_view" model="ir.actions.act_window">
+        <field name = "name">Servidor FHIR</field>
+        <field name = "res_model">res.config.settings</field>
+        
+        <field name = "view_id" ref = "fhir_config_settings_view_form" />      
+        <field name = "view_mode">form</field>
+        <field name = "target">inline</field>
+        <field name = "context">{'module' : 'fhir_sistemsalud'}</field>
     </record>
 
 

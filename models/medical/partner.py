@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError
 
 
 class PartnerFHIR(models.Model):
+	# contacto puede ser paciente, medico u organización
 	_inherit = "res.partner"
 	
 	_description = "description"
@@ -22,5 +23,13 @@ class PartnerFHIR(models.Model):
 	is_insurer =fields.Boolean(string = "Es asegurador")
 	id_fhir = fields.Char(string = "Id en el servidor FHIR")
 
+
 	
 
+	@api.model
+	def create(self, vals):
+		
+		res = super(PartnerFHIR, self).create(vals)
+		if res.is_patient:
+			res.id_fhir = self.env['fhir.i15d.patient'].post_patient(res)
+		return res

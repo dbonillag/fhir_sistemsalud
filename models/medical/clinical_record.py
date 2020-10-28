@@ -41,6 +41,8 @@ class ClinicalRecord(models.Model):
         self.write({
             'state' : 'accepted'
         })
+
+        
         self.write({ 'id_fhir' : self.env['fhir.i15d.encounter'].post_encounter(self) })
 
     @api.multi
