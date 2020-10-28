@@ -7,6 +7,11 @@
         <field name="name">[Salud] Integrantes</field>
     </record>
 
+    <record id="group_fhir_master" model="res.groups">
+        <field name="name">[Salud] Maestro</field>
+        <field name="implied_ids" eval="[(4, ref('group_fhir_medical'))]"/>
+    </record>
+
     <record id="group_fhir_administrator" model="res.groups">
         <field name="name">[Salud] Administrativos</field>
         <field name="implied_ids" eval="[(4, ref('group_fhir_medical'))]"/>
