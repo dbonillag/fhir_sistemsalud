@@ -20,19 +20,19 @@
             <field name="i15d_code">differential</field>
         </record>
 
-        <record id="diagnostic_type" model="fhir.diagnostic_type">
+        <record id="diagnostic_type_confirmed" model="fhir.diagnostic_type">
             <field name="name">Confirmado</field>
             <field name="internal_code">4</field>
             <field name="i15d_code">confirmed</field>
         </record> 
 
-        <record id="diagnostic_type" model="fhir.diagnostic_type">
+        <record id="diagnostic_type_refuted" model="fhir.diagnostic_type">
             <field name="name">Refutado</field>
             <field name="internal_code">5</field>
             <field name="i15d_code">refuted</field>
         </record> 
 
-        <record id="diagnostic_type" model="fhir.diagnostic_type">
+        <record id="diagnostic_type_error" model="fhir.diagnostic_type">
             <field name="name">Error diagnostico</field>
             <field name="internal_code">6</field>
             <field name="i15d_code">entered-in-error</field>
