@@ -34,10 +34,12 @@ class PartnerFHIR(models.Model):
 	def create(self, vals):
 		
 		res = super(PartnerFHIR, self).create(vals)
-		if not res.name:
-				raise ValidationError('Ingrese el nombre completo')
+		
+
 
 		if res.is_patient:
+			if not res.name:
+				raise ValidationError('Ingrese el nombre completo')
 			if not res.name_1:
 				raise ValidationError('Ingrese el primer nombre')
 			if not res.lastname_1:
@@ -49,23 +51,14 @@ class PartnerFHIR(models.Model):
 
 	@api.multi
 	def search_network(self):
-		# busca el paciente en la red, si existe,lo crea automaticamente
-		
+		# busca el paciente en la red, si existe,lo crea automaticamente	
 		ref = self.ref
 		
 		patient_dict = self.env['fhir.i15d.patient'].get_patient(ref)
 		if patient_dict:
 			# patient_dict['doctype_id'] = self.doctype_id.id
-			res = self.create(patient_dict)
-			view_id = self.env.ref('fhir_sistemsalud.view_partner_form_fe')
-			return {
-				'type': 'ir.actions.act_window',
-				'res_model': 'res.partner',
-				'view_id': view_id.id,
-				'view_mode': 'form',
-				'res_id': res.id
-			} 
-
-
-		return False
+			res = self.write(patient_dict)
+			
+			return 
+		raise ValidationError('No se encontró el paciente con el documento %s en la red'%ref)
 

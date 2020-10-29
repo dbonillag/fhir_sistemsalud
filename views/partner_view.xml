@@ -21,7 +21,7 @@
 
             <xpath expr="//field[@name='name']" position="attributes">
                
-                <attribute name="required" eval="False" />
+                <attribute name="attrs">{'required' : [('company_type', 'in', [False, True])]}</attribute>
 
             </xpath>
             <xpath expr="//notebook" position="inside">

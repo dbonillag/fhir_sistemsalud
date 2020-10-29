@@ -32,7 +32,7 @@
             <form delete='false' create='false' >
 
             	<header>
-            		<button name="close_encounter" string = "Finalizar consulta" type="object" class="oe_highlight"/>
+            		<button name="close_encounter" string = "Finalizar consulta" type="object" class="oe_highlight" attrs = "{'invisible' : [('state', '!=', 'new')]}"/>
             		<button name="search_network" string = "Buscar en la red" type="object" class="oe_highlight"/>
             	</header>
             	<sheet>
@@ -40,8 +40,8 @@
             		<group col='4'>
             			<field name="code" readonly = '1'/>  
             			<field name="patient_id" readonly = '1' />
-					    <field name="doctor_id" domain = "[('is_doctor', '=', True)]"/>
-					    <field name="atention_date"/>
+					    <field name="doctor_id" domain = "[('is_doctor', '=', True)]" attrs = "{'readonly' : [('state', '!=', 'new')]}"/>
+					    <field name="atention_date" attrs = "{'readonly' : [('state', '!=', 'new')]}"/>
 
 					</group>
 					<group string = "Motivo de consulta">

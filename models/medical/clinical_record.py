@@ -1,5 +1,6 @@
 # * coding: utf8 *
-from datetime import datetime
+from datetime import datetime, timedelta
+
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
@@ -14,7 +15,7 @@ class ClinicalRecord(models.Model):
     code = fields.Char(string = 'Codigo')
     patient_id = fields.Many2one("res.partner",  string = "Paciente")
     doctor_id = fields.Many2one( "res.partner", string = 'Medico')
-    atention_date = fields.Datetime(string = u"Fecha de atención", default = datetime.today())
+    atention_date = fields.Datetime(string = u"Fecha de atención", default = datetime.now() + timedelta(hours = 5))
     reason = fields.Text(string = 'Motivo de consulta')
     actual_disease = fields.Text(string = "Enfermedad actual")
     diagnoses_ids = fields.One2many("fhir.diagnoses", inverse_name = "clinical_record_id", string = 'Diagnosticos')

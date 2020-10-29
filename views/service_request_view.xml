@@ -42,7 +42,7 @@
             				<field name='organization_id' domain = "[('is_insurer', '=', True)]" required='1' attrs = "{'readonly' : [('state', '!=', 'draft')]}"/>
             			</group>
             			<group string='Entrada/Salida'>
-            				<field name='entry_date' readonly = '1'/>
+            				<field name='entry_date'/>
             				<field name='discharge_date' readonly = '1'/>
             			</group>
 
