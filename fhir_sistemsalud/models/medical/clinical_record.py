@@ -12,23 +12,36 @@ class ClinicalRecord(models.Model):
     _description = "description"
 
     code = fields.Char(string='Codigo')
-    patient_id = fields.Many2one("res.partner", string="Paciente")
-    doctor_id = fields.Many2one("res.partner", string='Medico')
-    atention_date = fields.Datetime(string=u"Fecha de atención", default=datetime.now() + timedelta(hours=5))
+    patient_id = fields.Many2one("res.partner",
+                                 string="Paciente")
+    doctor_id = fields.Many2one("res.partner",
+                                string='Medico')
+    atention_date = fields.Datetime(string=u"Fecha de atención",
+                                    default=datetime.now() + timedelta(hours=5))
     reason = fields.Text(string='Motivo de consulta')
     actual_disease = fields.Text(string="Enfermedad actual")
-    diagnoses_ids = fields.One2many("fhir.diagnoses", inverse_name="clinical_record_id", string='Diagnosticos')
-    procedures_ids = fields.One2many("fhir.procedures", string="Procedimientos", inverse_name='cr_id')
+    diagnoses_ids = fields.One2many("fhir.diagnoses",
+                                    inverse_name="clinical_record_id",
+                                    string='Diagnosticos')
+    procedures_ids = fields.One2many("fhir.procedures",
+                                     string="Procedimientos",
+                                     inverse_name='cr_id')
     cr_correction_id = fields.Many2one("fhir.clinical_record")
-    state = fields.Selection([('new', 'Nuevo'), ('accepted', 'Aceptado'), ('canceled', 'Anulado')], string='Estado',
+    state = fields.Selection([('new', 'Nuevo'),
+                              ('accepted', 'Aceptado'),
+                              ('canceled', 'Anulado')],
+                             string='Estado',
                              default='new')
-    service_id = fields.Many2one('fhir.service_request', string="Solicitud de servicio")
+    service_id = fields.Many2one('fhir.service_request',
+                                 string="Solicitud de servicio")
 
     # id del registro en el servidor FHIR
     id_fhir = fields.Char(string="Id en el servidor FHIR")
 
-    # lista de registros clinicos del mismo paciente obtenidos por interoperabilidad
-    i15d_encounter_ids = fields.One2many("fhir.i15d.encounter", string="Historia clinica en la red",
+    # lista de registros clinicos del mismo
+    # paciente obtenidos por interoperabilidad
+    i15d_encounter_ids = fields.One2many("fhir.i15d.encounter",
+                                         string="Historia clinica en la red",
                                          inverse_name='cr_id')
 
     @api.multi

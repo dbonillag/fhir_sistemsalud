@@ -12,12 +12,20 @@ class ServiceRequest(models.Model):
     _description = "description"
 
     code = fields.Char(string="Codigo")
-    patient_id = fields.Many2one("res.partner", string='Paciente')
-    organization_id = fields.Many2one("res.partner", string='Aseguradora')
-    entry_date = fields.Datetime(string=u"Fecha de ingreso", default=datetime.now() + timedelta(hours=5))
+    patient_id = fields.Many2one("res.partner",
+                                 string='Paciente')
+    organization_id = fields.Many2one("res.partner",
+                                      string='Aseguradora')
+    entry_date = fields.Datetime(string=u"Fecha de ingreso",
+                                 default=datetime.now() + timedelta(hours=5))
     discharge_date = fields.Datetime(string=u"Fecha de egreso")
-    contact_ids = fields.One2many("fhir.contact", string="Contactos", inverse_name='request_id')
-    state = fields.Selection([('draft', 'Borrador'), ('open', 'Abierto'), ('close', 'Cerrado')], string="Estado",
+    contact_ids = fields.One2many("fhir.contact",
+                                  string="Contactos",
+                                  inverse_name='request_id')
+    state = fields.Selection([('draft', 'Borrador'),
+                              ('open', 'Abierto'),
+                              ('close', 'Cerrado')],
+                             string="Estado",
                              default="draft")
 
     @api.multi
