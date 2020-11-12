@@ -19,15 +19,23 @@ class I15dEncounter(models.Model):
 
     _rec_name = 'atention_date'
 
-    id_server = fields.Char(string="Id en el servidor FHIR", readonly=True)
+    id_server = fields.Char(string="Id en el servidor FHIR",
+                            readonly=True)
 
-    atention_date = fields.Datetime(string=u"Fecha de atención", readonly=True)
-    text = fields.Text(string='Texto', readonly=True)
-    diagnoses_ids = fields.One2many("fhir.i15d.condition", string='Diagnosticos', inverse_name='encuonter_id',
+    atention_date = fields.Datetime(string=u"Fecha de atención",
                                     readonly=True)
-    procedures_ids = fields.One2many("fhir.i15d.procedure", string="Procedimientos", inverse_name='encuonter_id',
+    text = fields.Text(string='Texto', readonly=True)
+    diagnoses_ids = fields.One2many("fhir.i15d.condition",
+                                    string='Diagnosticos',
+                                    inverse_name='encuonter_id',
+                                    readonly=True)
+    procedures_ids = fields.One2many("fhir.i15d.procedure",
+                                     string="Procedimientos",
+                                     inverse_name='encuonter_id',
                                      readonly=True)
-    cr_id = fields.Many2one("fhir.clinical_record", string="Historias en la red", inverse_name='i15d_encounter_ids',
+    cr_id = fields.Many2one("fhir.clinical_record",
+                            string="Historias en la red",
+                            inverse_name='i15d_encounter_ids',
                             readonly=True)
 
     @api.model
@@ -42,7 +50,10 @@ class I15dEncounter(models.Model):
 
         _logger.info(encounter_json)
 
-        response = requests.request("POST", url, headers=headers, data=encounter_json)
+        response = requests.request("POST",
+                                    url,
+                                    headers=headers,
+                                    data=encounter_json)
 
         _logger.info(response.text.encode('utf8'))
 
@@ -55,12 +66,16 @@ class I15dEncounter(models.Model):
 
     def build_encounter(self, clinical_record):
         diagnosis_result = self.build_diagnosis_list(clinical_record)
-        dict_base = {'id': str(clinical_record.id), 'resourceType': "Encounter",
+        dict_base = {'id': str(clinical_record.id),
+                     'resourceType': "Encounter",
                      'text': self.build_text(clinical_record),
                      'identifier': self.build_identifier_list(clinical_record),
-                     'period': self.build_period(clinical_record), 'subject': self.build_subject(clinical_record),
-                     'contained': diagnosis_result['contained'], 'diagnosis': diagnosis_result['diagnosis'],
-                     'status': "finished", 'class': self.build_class(clinical_record)}
+                     'period': self.build_period(clinical_record),
+                     'subject': self.build_subject(clinical_record),
+                     'contained': diagnosis_result['contained'],
+                     'diagnosis': diagnosis_result['diagnosis'],
+                     'status': "finished",
+                     'class': self.build_class(clinical_record)}
 
         return dict_base
 
@@ -72,13 +87,16 @@ class I15dEncounter(models.Model):
         return dict_text
 
     def build_identifier_list(self, clinical_record):
-        # construye la sección respectiva al identificador natural del registro clinico
-        dict_id = {'use': 'official', 'value': clinical_record.code}
+        # construye la sección respectiva
+        # al identificador natural del registro clinico
+        dict_id = {'use': 'official',
+                   'value': clinical_record.code}
 
         return [dict_id]
 
     def build_period(self, clinical_record):
-        # Contruye el periodo durante el cual se realizó el encuentro
+        # Contruye el periodo durante el cual
+        # se realizó el encuentro
         dict_json = {'start': self.format_datetime(clinical_record.atention_date),
                      'end': self.format_datetime(clinical_record.service_id.discharge_date)}
         return dict_json
@@ -162,7 +180,8 @@ class I15dEncounter(models.Model):
         return i15d_encounter_list
 
     def create_encounter(self, encounter):
-        new_encounter = {'atention_date': encounter['period']['start'], 'text': encounter['text']['div']}
+        new_encounter = {'atention_date': encounter['period']['start'],
+                         'text': encounter['text']['div']}
         diagnosis = [dx for dx in encounter['contained'] if dx['resourceType'] == 'Condition']
         procedure = [dx for dx in encounter['contained'] if dx['resourceType'] == 'Procedure']
         # diagnosis_ids = [dx.id for dx in self.env['fhir.i15d.condition'].create_condition_list()]

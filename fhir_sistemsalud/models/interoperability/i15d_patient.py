@@ -13,8 +13,9 @@ ENDPOINT = "/Patient"
 
 
 class I15dPatient(models.Model):
-    # clase encargada de servir de intermediario entre el modelo de datos del paciente del sistema y el paciente del
-    # servidor FHIR
+    # clase encargada de servir de intermediario entre
+    # el modelo de datos del paciente del sistema y
+    # el paciente del servidor FHIR
     _name = 'fhir.i15d.patient'
 
     _inherit = 'fhir.i15d.base'
@@ -31,7 +32,10 @@ class I15dPatient(models.Model):
 
         _logger.info(patient_json)
 
-        response = requests.request("POST", url, headers=headers, data=patient_json)
+        response = requests.request("POST",
+                                    url,
+                                    headers=headers,
+                                    data=patient_json)
 
         _logger.info(response.text.encode('utf8'))
 
@@ -44,13 +48,17 @@ class I15dPatient(models.Model):
         return response_dict['id']
 
     def build_patient(self, patient):
-        dict_base = {'id': str(patient.id), 'resourceType': "Patient",
-                     'identifier': self.build_identifier_list(patient), 'active': True,
-                     'name': self.build_name_list(patient), 'gender': patient.gender}
+        dict_base = {'id': str(patient.id),
+                     'resourceType': "Patient",
+                     'identifier': self.build_identifier_list(patient),
+                     'active': True,
+                     'name': self.build_name_list(patient),
+                     'gender': patient.gender}
         return dict_base
 
     def build_identifier_list(self, patient):
-        # construye la sección respectiva al identificador natural del registro clinico
+        # construye la sección respectiva
+        # al identificador natural del registro clinico
         dict_id = {'use': 'official', 'value': patient.ref}
 
         return [dict_id]
@@ -119,7 +127,10 @@ class I15dPatient(models.Model):
 
         headers = self.get_headers()
         url = self.get_url() + ENDPOINT + '?identifier=' + ref
-        response = requests.request("GET", url, headers=headers, data={})
+        response = requests.request("GET",
+                                    url,
+                                    headers=headers,
+                                    data={})
 
         if str(response.status_code)[:1] != '2':
             _logger.info(response.text.encode('utf8'))

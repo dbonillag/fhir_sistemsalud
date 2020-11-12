@@ -22,11 +22,14 @@ class I15dProcedure(models.Model):
 
     code = fields.Char(string="Codigo", readonly=True)
 
-    encuonter_id = fields.Many2one("fhir.i15d.encounter", inverse_name='procedures_ids', string="encuentro")
+    encuonter_id = fields.Many2one("fhir.i15d.encounter",
+                                   inverse_name='procedures_ids',
+                                   string="encuentro")
 
     @api.model
     def build_procedure(self, procedure):
-        # devuelve un diccionario con el procedimiento construido de tal forma para que sea dependiente del encuentro
+        # devuelve un diccionario con el procedimiento
+        # construido de tal forma para que sea dependiente del encuentro
         dict_json = {
 
             'resourceType': 'Procedure',
@@ -70,7 +73,8 @@ class I15dProcedure(models.Model):
         url = self.get_url() + '/Patient/' + (clinical_record.patient_id.id_fhir or 'na')
         dict_json['reference'] = url
         dict_json['type'] = 'Patient'
-        dict_json['display'] = '%s (%s)' % (clinical_record.patient_id.name, clinical_record.patient_id.ref)
+        dict_json['display'] = '%s (%s)' % (clinical_record.patient_id.name,
+                                            clinical_record.patient_id.ref)
         return dict_json
 
     def create_procedure_list(self, procedures):
@@ -79,7 +83,6 @@ class I15dProcedure(models.Model):
         for procedure in procedures:
             res = self.create({
                 'text': procedure['text']['div'],
-
                 'name': procedure['code']['coding'][0]['display'],
                 'code': procedure['code']['coding'][0]['code']
             })

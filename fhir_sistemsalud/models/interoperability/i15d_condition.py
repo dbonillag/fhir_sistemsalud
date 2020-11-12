@@ -15,16 +15,22 @@ class I15dCondition(models.Model):
 
     _rec_name = 'diagnostic'
 
-    text = fields.Text(string='Texto', readonly=True)
-    diagnostic_type = fields.Char(string='Tipo', readonly=True)
-    diagnostic = fields.Char(string='Nombre diagnostico', readonly=True)
-    diagnostic_code = fields.Char(string='Codigo CIE10', readonly=True)
-    encuonter_id = fields.Many2one("fhir.i15d.encounter", inverse_name='diagnoses_ids', string="encuentro")
+    text = fields.Text(string='Texto',
+                       readonly=True)
+    diagnostic_type = fields.Char(string='Tipo',
+                                  readonly=True)
+    diagnostic = fields.Char(string='Nombre diagnostico',
+                             readonly=True)
+    diagnostic_code = fields.Char(string='Codigo CIE10',
+                                  readonly=True)
+    encuonter_id = fields.Many2one("fhir.i15d.encounter",
+                                   inverse_name='diagnoses_ids',
+                                   string="encuentro")
 
     @api.model
     def build_condition(self, diagnostic):
-        # devuelve un diccionario con la condicion(diagnostico) construida de tal forma para que sea dependiente del
-        # encuentro
+        # devuelve un diccionario con la condicion(diagnostico)
+        # construida de tal forma para que sea dependiente del encuentro
         dict_json = {
 
             'resourceType': 'Condition',
@@ -43,7 +49,8 @@ class I15dCondition(models.Model):
 
     def build_text(self, diagnostic):
         dict_text = {'status': 'additional',
-                     'div': "<div xmlns=\"http://www.w3.org/1999/xhtml\">PRIORIDAD: %s</div>" % diagnostic.priority.name}
+                     'div': "<div xmlns=\"http://www.w3.org/1999/xhtml\">PRIORIDAD: %s</div>" % diagnostic.priority.name
+                     }
 
         return dict_text
 
@@ -73,11 +80,11 @@ class I15dCondition(models.Model):
 
     def build_subject(self, clinical_record):
         # Referencia de paciente al que pertenece el registro clinico
-        dict_json = {}
         url = self.get_url() + '/Patient/' + (clinical_record.patient_id.id_fhir or 'na')
-        dict_json['reference'] = url
-        dict_json['type'] = 'Patient'
-        dict_json['display'] = '%s (%s)' % (clinical_record.patient_id.name, clinical_record.patient_id.ref)
+        dict_json = {'reference': url,
+                     'type': 'Patient',
+                     'display': '%s (%s)' % (clinical_record.patient_id.name,
+                                             clinical_record.patient_id.ref)}
         return dict_json
 
     def create_condition_list(self, diagnosis):
