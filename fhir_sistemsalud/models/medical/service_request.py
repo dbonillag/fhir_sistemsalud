@@ -22,7 +22,7 @@ class ServiceRequest(models.Model):
 
     @api.multi
     def open_service(self):
-        cr_new = self.env['fhir.clinical_record'].sudo().create({
+        self.env['fhir.clinical_record'].sudo().create({
             'patient_id': self.patient_id.id,
             'service_id': self.id
         })

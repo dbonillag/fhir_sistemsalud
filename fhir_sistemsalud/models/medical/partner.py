@@ -55,7 +55,6 @@ class PartnerFHIR(models.Model):
         patient_dict = self.env['fhir.i15d.patient'].get_patient(ref)
         if patient_dict:
             # patient_dict['doctype_id'] = self.doctype_id.id
-            res = self.write(patient_dict)
-
+            self.write(patient_dict)
             return
         raise ValidationError('No se encontró el paciente con el documento %s en la red' % ref)
