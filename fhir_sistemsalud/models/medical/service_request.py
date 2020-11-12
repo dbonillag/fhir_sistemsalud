@@ -48,5 +48,5 @@ class ServiceRequest(models.Model):
         #     'view_id': view_id.id,
         #     'view_mode': 'form',
         #     'res_id': cr_new.id,
-        # }  
+        # }
         return
