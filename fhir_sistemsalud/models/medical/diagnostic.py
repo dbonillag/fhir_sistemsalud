@@ -1,7 +1,6 @@
 # * coding: utf8 *
 
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo import fields, models
 
 
 class Diagnostic(models.Model):
@@ -9,6 +8,6 @@ class Diagnostic(models.Model):
     _description = "description"
     _rec_name = 'name'
 
-    internal_code = fields.Char(string = 'Codigo interno')
-    name = fields.Char(string = 'Nombre') 
-    cie10_code = fields.Char(string = 'Codigo cie10')  
+    internal_code = fields.Char(string='Codigo interno')
+    name = fields.Char(string='Nombre')
+    cie10_code = fields.Char(string='Codigo cie10')
