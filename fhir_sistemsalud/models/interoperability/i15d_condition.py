@@ -49,7 +49,8 @@ class I15dCondition(models.Model):
 
     def build_text(self, diagnostic):
         dict_text = {'status': 'additional',
-                     'div': "<div xmlns=\"http://www.w3.org/1999/xhtml\">PRIORIDAD: %s</div>" % diagnostic.priority.name
+                     'div': '''<div xmlns=\"http://www.w3.org/1999/
+                     xhtml\">PRIORIDAD: %s</div>''' % diagnostic.priority.name
                      }
 
         return dict_text
@@ -57,7 +58,8 @@ class I15dCondition(models.Model):
     def build_verification_status(self, diagnostic):
         dict_json = {
             'coding': [{
-                'system': 'http://terminology.hl7.org/CodeSystem/condition-ver-status',
+                'system': '''http://terminology.hl7.org/CodeSystem/
+                    condition-ver-status''',
                 "code": diagnostic.type_id.i15d_code,
                 "display": diagnostic.type_id.name
 
@@ -79,21 +81,23 @@ class I15dCondition(models.Model):
         return dict_json
 
     def build_subject(self, clinical_record):
+        patient_id = clinical_record.patient_id
         # Referencia de paciente al que pertenece el registro clinico
-        url = self.get_url() + '/Patient/' + (clinical_record.patient_id.id_fhir or 'na')
+        url = self.get_url() + '/Patient/' + (patient_id.id_fhir or 'na')
         dict_json = {'reference': url,
                      'type': 'Patient',
-                     'display': '%s (%s)' % (clinical_record.patient_id.name,
-                                             clinical_record.patient_id.ref)}
+                     'display': '%s (%s)' % (patient_id.name,
+                                             patient_id.ref)}
         return dict_json
 
     def create_condition_list(self, diagnosis):
         condition_list = []
 
         for dx in diagnosis:
+            diagnostic_type = dx['verificationStatus']['coding'][0]['display']
             res = self.create({
                 'text': dx['text']['div'],
-                'diagnostic_type': dx['verificationStatus']['coding'][0]['display'],
+                'diagnostic_type': diagnostic_type,
                 'diagnostic': dx['code']['coding'][0]['display'],
                 'diagnostic_code': dx['code']['coding'][0]['code']
             })

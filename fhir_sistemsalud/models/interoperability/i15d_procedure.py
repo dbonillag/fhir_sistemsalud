@@ -49,7 +49,8 @@ class I15dProcedure(models.Model):
     def build_text(self, procedure):
         # sección con las notas del procedimiento
         dict_text = {'status': 'additional',
-                     'div': "<div xmlns=\"http://www.w3.org/1999/xhtml\">NOTAS: %s \n CANTIDAD: %s</div>" % (
+                     'div': '''<div xmlns=\"http://www.w3.org/1999/xhtml\">
+                     NOTAS: %s \n CANTIDAD: %s</div>''' % (
                          procedure.notes, procedure.quantity)}
 
         return dict_text
@@ -70,11 +71,12 @@ class I15dProcedure(models.Model):
     def build_subject(self, clinical_record):
         # referencia de paciente al que pertenece el registro clinico
         dict_json = {}
-        url = self.get_url() + '/Patient/' + (clinical_record.patient_id.id_fhir or 'na')
+        patient_id = clinical_record.patient_id
+        url = self.get_url() + '/Patient/' + (patient_id.id_fhir or 'na')
         dict_json['reference'] = url
         dict_json['type'] = 'Patient'
-        dict_json['display'] = '%s (%s)' % (clinical_record.patient_id.name,
-                                            clinical_record.patient_id.ref)
+        dict_json['display'] = '%s (%s)' % (patient_id.name,
+                                            patient_id.ref)
         return dict_json
 
     def create_procedure_list(self, procedures):

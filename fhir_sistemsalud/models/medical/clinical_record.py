@@ -17,7 +17,8 @@ class ClinicalRecord(models.Model):
     doctor_id = fields.Many2one("res.partner",
                                 string='Medico')
     atention_date = fields.Datetime(string=u"Fecha de atención",
-                                    default=datetime.now() + timedelta(hours=5))
+                                    default=datetime.now() +
+                                    timedelta(hours=5))
     reason = fields.Text(string='Motivo de consulta')
     actual_disease = fields.Text(string="Enfermedad actual")
     diagnoses_ids = fields.One2many("fhir.diagnoses",
@@ -52,11 +53,13 @@ class ClinicalRecord(models.Model):
         })
 
         self.write({
-            'code': self.env['ir.sequence'].next_by_code('fhir.clinical_record'),
+            'code': self.env['ir.sequence'].
+            next_by_code('fhir.clinical_record'),
             'state': 'accepted'
         })
 
-        self.write({'id_fhir': self.env['fhir.i15d.encounter'].post_encounter(self)})
+        self.write({'id_fhir': self.env['fhir.i15d.encounter']
+                   .post_encounter(self)})
 
     @api.multi
     def search_network(self):
@@ -64,7 +67,8 @@ class ClinicalRecord(models.Model):
         for encounter_id in self.i15d_encounter_ids:
             self.write({'i15d_encounter_ids': [(2, encounter_id.id)]})
         # obtiene los registros por interoperabilidad
-        i15d_encounter_ids = self.env['fhir.i15d.encounter'].get_encounter_by_patient(self.patient_id)
+        i15d_encounter_ids = self.env['fhir.i15d.encounter']\
+            .get_encounter_by_patient(self.patient_id)
         _logger.info(u'%s' % i15d_encounter_ids)
         if i15d_encounter_ids:
             self.write({'i15d_encounter_ids': i15d_encounter_ids})

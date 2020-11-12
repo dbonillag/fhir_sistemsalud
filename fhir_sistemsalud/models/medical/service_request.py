@@ -35,18 +35,11 @@ class ServiceRequest(models.Model):
             'service_id': self.id
         })
 
-        self.code = self.env['ir.sequence'].next_by_code('fhir.service_request')
+        self.code = self.env['ir.sequence']\
+            .next_by_code('fhir.service_request')
 
         self.write({
             'state': 'open'
         })
 
-        view_id = self.env.ref('fhir_sistemsalud.clinical_record_form_view')
-        # return {
-        #     'type': 'ir.actions.act_window',
-        #     'res_model': 'fhir.clinical_record',
-        #     'view_id': view_id.id,
-        #     'view_mode': 'form',
-        #     'res_id': cr_new.id,
-        # }
         return

@@ -58,7 +58,8 @@ class I15dEncounter(models.Model):
         _logger.info(response.text.encode('utf8'))
 
         if str(response.status_code)[:1] != '2':
-            raise ValidationError("Ocurrió un error al enviar la historia clinica por interoperabilidad")
+            raise ValidationError('''Ocurrió un error al enviar la historia clinica
+            por interoperabilidad''')
 
         response_dict = json.loads(response.text.encode('utf8'))
 
@@ -81,8 +82,10 @@ class I15dEncounter(models.Model):
 
     def build_text(self, clinical_record):
         dict_text = {'status': 'additional',
-                     'div': "<div xmlns=\"http://www.w3.org/1999/xhtml\">MOTIVO DE CONSULTA: %s \n ENFERMEDAD ACTUAL: %s </div>" % (
-                         clinical_record.reason, clinical_record.actual_disease)}
+                     'div': '''<div xmlns=\"http://www.w3.org/1999/xhtml\">MOTIVO DE CONSULTA'
+                            ': %s \n ENFERMEDAD ACTUAL: %s </div>''' % (
+                         clinical_record.reason,
+                         clinical_record.actual_disease)}
 
         return dict_text
 
@@ -97,8 +100,10 @@ class I15dEncounter(models.Model):
     def build_period(self, clinical_record):
         # Contruye el periodo durante el cual
         # se realizó el encuentro
-        dict_json = {'start': self.format_datetime(clinical_record.atention_date),
-                     'end': self.format_datetime(clinical_record.service_id.discharge_date)}
+        start = self.format_datetime(clinical_record.atention_date)
+        end = self.format_datetime(clinical_record.service_id.discharge_date)
+        dict_json = {'start': start,
+                     'end': end}
         return dict_json
 
     def format_datetime(self, dat):
@@ -106,12 +111,13 @@ class I15dEncounter(models.Model):
         return dat.strftime("%Y-%m-%d")
 
     def build_subject(self, clinical_record):
+        patient_id = clinical_record.patient_id
         # referencia de paciente al que pertenece el registro clinico
         dict_json = {}
-        url = self.get_url() + '/Patient/' + (clinical_record.patient_id.id_fhir or 'na')
+        url = self.get_url() + '/Patient/' + (patient_id.id_fhir or 'na')
         dict_json['reference'] = url
         dict_json['type'] = 'Patient'
-        dict_json['display'] = '%s (%s)' % (clinical_record.patient_id.name, clinical_record.patient_id.ref)
+        dict_json['display'] = '%s (%s)' % (patient_id.name, patient_id.ref)
         return dict_json
 
     def build_diagnosis_list(self, clinical_record):
@@ -122,19 +128,23 @@ class I15dEncounter(models.Model):
         i15d_procedure_model = self.env['fhir.i15d.procedure']
 
         for i, diagnostic in enumerate(clinical_record.diagnoses_ids, start=1):
-            dict_contained_condition = i15d_condition_model.build_condition(diagnostic, )
+            dict_contained_condition = i15d_condition_model.build_condition(
+                diagnostic, )
             dict_contained_condition['id'] = 'condition-' + str(i)
             dict_reference_condition = {
-                "condition": {'reference': '#' + dict_contained_condition['id']}
+                "condition": {'reference': '#'
+                                           + dict_contained_condition['id']}
             }
             list_diagnosis_content.append(dict_contained_condition)
             list_diagnosis_references.append(dict_reference_condition)
 
         for j, procedure in enumerate(clinical_record.procedures_ids, start=1):
-            dict_contained_procedure = i15d_procedure_model.build_procedure(procedure)
+            dict_contained_procedure = i15d_procedure_model.\
+                build_procedure(procedure)
             dict_contained_procedure['id'] = 'procedure-' + str(j)
             dict_reference_procedure = {
-                "condition": {'reference': '#' + dict_contained_procedure['id']}
+                "condition": {'reference': '#' +
+                                           dict_contained_procedure['id']}
             }
             list_diagnosis_content.append(dict_contained_procedure)
             list_diagnosis_references.append(dict_reference_procedure)
@@ -160,7 +170,8 @@ class I15dEncounter(models.Model):
 
         if str(response.status_code)[:1] != '2':
             _logger.info(response.text.encode('utf8'))
-            raise ValidationError("Ocurrió un error al enviar la historia clinica por interoperabilidad")
+            raise ValidationError("Ocurrió un error al enviar la "
+                                  "historia clinica por interoperabilidad")
 
         response_dict = json.loads(response.text.encode('utf8'))
 
@@ -182,11 +193,12 @@ class I15dEncounter(models.Model):
     def create_encounter(self, encounter):
         new_encounter = {'atention_date': encounter['period']['start'],
                          'text': encounter['text']['div']}
-        diagnosis = [dx for dx in encounter['contained'] if dx['resourceType'] == 'Condition']
-        procedure = [dx for dx in encounter['contained'] if dx['resourceType'] == 'Procedure']
-        # diagnosis_ids = [dx.id for dx in self.env['fhir.i15d.condition'].create_condition_list()]
-
-        # procedure_ids = [dx.id for dx in self.env['fhir.i15d.procedure'].create_procedure_list()]
-        new_encounter['diagnoses_ids'] = self.env['fhir.i15d.condition'].create_condition_list(diagnosis)
-        new_encounter['procedures_ids'] = self.env['fhir.i15d.procedure'].create_procedure_list(procedure)
+        diagnosis = [dx for dx in encounter['contained']
+                     if dx['resourceType'] == 'Condition']
+        procedure = [dx for dx in encounter['contained']
+                     if dx['resourceType'] == 'Procedure']
+        new_encounter['diagnoses_ids'] = self.env['fhir.i15d.condition'].\
+            create_condition_list(diagnosis)
+        new_encounter['procedures_ids'] = self.env['fhir.i15d.procedure'].\
+            create_procedure_list(procedure)
         return new_encounter
