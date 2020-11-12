@@ -44,20 +44,14 @@ class I15dPatient(models.Model):
         return response_dict['id']
 
     def build_patient(self, patient):
-        dict_base = {}
-        dict_base['id'] = str(patient.id)
-        dict_base['resourceType'] = "Patient"
-        dict_base['identifier'] = self.build_identifier_list(patient)
-        dict_base['active'] = True
-        dict_base['name'] = self.build_name_list(patient)
-        dict_base['gender'] = patient.gender
+        dict_base = {'id': str(patient.id), 'resourceType': "Patient",
+                     'identifier': self.build_identifier_list(patient), 'active': True,
+                     'name': self.build_name_list(patient), 'gender': patient.gender}
         return dict_base
 
     def build_identifier_list(self, patient):
         # construye la sección respectiva al identificador natural del registro clinico
-        dict_id = {}
-        dict_id['use'] = 'official'
-        dict_id['value'] = patient.ref
+        dict_id = {'use': 'official', 'value': patient.ref}
 
         return [dict_id]
 

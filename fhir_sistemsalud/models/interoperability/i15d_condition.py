@@ -23,7 +23,8 @@ class I15dCondition(models.Model):
 
     @api.model
     def build_condition(self, diagnostic):
-        # devuelve un diccionario con la condicion(diagnostico) construida de tal forma para que sea dependiente del encuentro
+        # devuelve un diccionario con la condicion(diagnostico) construida de tal forma para que sea dependiente del
+        # encuentro
         dict_json = {
 
             'resourceType': 'Condition',
@@ -41,10 +42,9 @@ class I15dCondition(models.Model):
         return dict_json
 
     def build_text(self, diagnostic):
-        dict_text = {}
+        dict_text = {'status': 'additional',
+                     'div': "<div xmlns=\"http://www.w3.org/1999/xhtml\">PRIORIDAD: %s</div>" % diagnostic.priority.name}
 
-        dict_text['status'] = 'additional'
-        dict_text['div'] = "<div xmlns=\"http://www.w3.org/1999/xhtml\">PRIORIDAD: %s</div>" % diagnostic.priority.name
         return dict_text
 
     def build_verification_status(self, diagnostic):
@@ -72,7 +72,7 @@ class I15dCondition(models.Model):
         return dict_json
 
     def build_subject(self, clinical_record):
-        # referencia de paciente al que pertenece el registro clinico
+        # Referencia de paciente al que pertenece el registro clinico
         dict_json = {}
         url = self.get_url() + '/Patient/' + (clinical_record.patient_id.id_fhir or 'na')
         dict_json['reference'] = url

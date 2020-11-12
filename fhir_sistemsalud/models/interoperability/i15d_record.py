@@ -54,48 +54,37 @@ class I15dEncounter(models.Model):
         return response_dict['id']
 
     def build_encounter(self, clinical_record):
-        dict_base = {}
-        dict_base['id'] = str(clinical_record.id)
-        dict_base['resourceType'] = "Encounter"
-        dict_base['text'] = self.build_text(clinical_record)
-        dict_base['identifier'] = self.build_identifier_list(clinical_record)
-        dict_base['period'] = self.build_period(clinical_record)
-        dict_base['subject'] = self.build_subject(clinical_record)
         diagnosis_result = self.build_diagnosis_list(clinical_record)
-        dict_base['contained'] = diagnosis_result['contained']
-        dict_base['diagnosis'] = diagnosis_result['diagnosis']
-        dict_base['status'] = "finished"
-        dict_base['class'] = self.build_class(clinical_record)
+        dict_base = {'id': str(clinical_record.id), 'resourceType': "Encounter",
+                     'text': self.build_text(clinical_record),
+                     'identifier': self.build_identifier_list(clinical_record),
+                     'period': self.build_period(clinical_record), 'subject': self.build_subject(clinical_record),
+                     'contained': diagnosis_result['contained'], 'diagnosis': diagnosis_result['diagnosis'],
+                     'status': "finished", 'class': self.build_class(clinical_record)}
 
         return dict_base
 
     def build_text(self, clinical_record):
-        dict_text = {}
+        dict_text = {'status': 'additional',
+                     'div': "<div xmlns=\"http://www.w3.org/1999/xhtml\">MOTIVO DE CONSULTA: %s \n ENFERMEDAD ACTUAL: %s </div>" % (
+                         clinical_record.reason, clinical_record.actual_disease)}
 
-        dict_text['status'] = 'additional'
-        dict_text[
-            'div'] = "<div xmlns=\"http://www.w3.org/1999/xhtml\">MOTIVO DE CONSULTA: %s \n ENFERMEDAD ACTUAL: %s </div>" % (
-        clinical_record.reason, clinical_record.actual_disease)
         return dict_text
 
     def build_identifier_list(self, clinical_record):
         # construye la sección respectiva al identificador natural del registro clinico
-        dict_id = {}
-        dict_id['use'] = 'official'
-        dict_id['value'] = clinical_record.code
+        dict_id = {'use': 'official', 'value': clinical_record.code}
 
         return [dict_id]
 
     def build_period(self, clinical_record):
         # Contruye el periodo durante el cual se realizó el encuentro
-        dict_json = {}
-        dict_json['start'] = self.format_datetime(clinical_record.atention_date)
-        dict_json['end'] = self.format_datetime(clinical_record.service_id.discharge_date)
+        dict_json = {'start': self.format_datetime(clinical_record.atention_date),
+                     'end': self.format_datetime(clinical_record.service_id.discharge_date)}
         return dict_json
 
     def format_datetime(self, dat):
         # formatea la fecha
-
         return dat.strftime("%Y-%m-%d")
 
     def build_subject(self, clinical_record):
@@ -173,9 +162,7 @@ class I15dEncounter(models.Model):
         return i15d_encounter_list
 
     def create_encounter(self, encounter):
-        new_encounter = {}
-        new_encounter['atention_date'] = encounter['period']['start']
-        new_encounter['text'] = encounter['text']['div']
+        new_encounter = {'atention_date': encounter['period']['start'], 'text': encounter['text']['div']}
         diagnosis = [dx for dx in encounter['contained'] if dx['resourceType'] == 'Condition']
         procedure = [dx for dx in encounter['contained'] if dx['resourceType'] == 'Procedure']
         # diagnosis_ids = [dx.id for dx in self.env['fhir.i15d.condition'].create_condition_list()]

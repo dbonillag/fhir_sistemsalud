@@ -45,11 +45,10 @@ class I15dProcedure(models.Model):
 
     def build_text(self, procedure):
         # sección con las notas del procedimiento
-        dict_text = {}
+        dict_text = {'status': 'additional',
+                     'div': "<div xmlns=\"http://www.w3.org/1999/xhtml\">NOTAS: %s \n CANTIDAD: %s</div>" % (
+                         procedure.notes, procedure.quantity)}
 
-        dict_text['status'] = 'additional'
-        dict_text['div'] = "<div xmlns=\"http://www.w3.org/1999/xhtml\">NOTAS: %s \n CANTIDAD: %s</div>" % (
-        procedure.notes, procedure.quantity)
         return dict_text
 
     def build_code(self, procedure):
