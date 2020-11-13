@@ -3,6 +3,7 @@ cache: pip
 
 addons:
   postgresql: "9.6"
+  ssh_known_hosts: 157.245.80.19
   apt:
     packages:
       - expect-dev  # provides unbuffer utility
@@ -37,12 +38,19 @@ env:
     - VERSION="12.0" TESTS="0" LINT_CHECK="0" MAKEPOT="0"
 
 install:
+  - openssl aes-256-cbc -k $encrypted_key -in fhir.enc -out /tmp/deploy_rsa -d
+  - eval "$(ssh-agent -s)"
+  - chmod 600 /tmp/deploy_rsa
+  - ssh-add /tmp/deploy_rsa
   - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git $HOME/maintainer-quality-tools
   - export PATH=$HOME/maintainer-quality-tools/travis:$PATH
   - travis_install_nightly
 
 script:
   - travis_run_tests
+  - ssh deploy@157.245.80.19 /home/deploy/update.sh
+  - ssh deploy@157.245.80.19 sudo /home/deploy/autodeploy.sh
+
 
 after_success:
   - travis_after_tests_success
