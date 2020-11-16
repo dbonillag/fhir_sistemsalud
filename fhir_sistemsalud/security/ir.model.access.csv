@@ -13,6 +13,6 @@ access_fhir_i15d_base,access_fhir_i15d_base,model_fhir_i15d_base,,1,1,1,1
 access_fhir_i15d_patient,access_fhir_i15d_patient,model_fhir_i15d_patient,,1,1,1,1
 access_fhir_i15d_procedure,access_fhir_i15d_procedure,model_fhir_i15d_procedure,,1,1,1,1
 access_fhir_i15d_encounter,access_fhir_i15d_encounter,model_fhir_i15d_encounter,,1,1,1,1
-access_fhir_partner_nurse,access_fhir_partner_nurse,model_fhir_partner,group_fhir_nurse,1,1,1,0
-access_fhir_partner_admin,access_fhir_partner_admin,model_fhir_partner,group_fhir_admin,1,0,0,0
-access_fhir_partner_doctor,access_fhir_partner_doctor,model_fhir_partner,group_fhir_doctor,1,0,0,0
+access_fhir_partner_nurse,access_fhir_partner_nurse,model_res_partner,group_fhir_nurse,1,1,1,0
+access_fhir_partner_admin,access_fhir_partner_admin,model_res_partner,group_fhir_administrator,1,0,0,0
+access_fhir_partner_doctor,access_fhir_partner_doctor,model_res_partner,group_fhir_doctor,1,0,0,0
