@@ -37,20 +37,24 @@ class PartnerFHIR(models.Model):
 
     @api.model
     def create(self, vals):
+        context = self._context
 
-        res = super(PartnerFHIR, self).create(vals)
-
-        if res.is_patient:
-            if not res.name:
+        if vals.get('is_patient', False):
+            if not vals.get('name', False):
                 raise ValidationError('Ingrese el nombre completo')
-            if not res.name_1:
+            if not vals.get('name_1', False):
                 raise ValidationError('Ingrese el primer nombre')
-            if not res.lastname_1:
+            if not vals.get('lastname_1', False):
                 raise ValidationError('Ingrese el primer apellido')
-            if not res.gender:
+            if not vals.get('gender', False):
                 raise ValidationError('Ingrese el genero')
-            res.id_fhir = self.env['fhir.i15d.patient'].post_patient(res)
-        return res
+            res = super(PartnerFHIR, self).create(vals)
+            if not context.get('no_interoperate', False):
+                res.id_fhir = self.env['fhir.i15d.patient'].post_patient(res)
+            return res
+        else:
+            res = super(PartnerFHIR, self).create(vals)
+            return res
 
     @api.multi
     def search_network(self):
