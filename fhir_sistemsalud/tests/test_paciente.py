@@ -67,7 +67,7 @@ class TestPaciente(TransactionCase):
             login="doctor_test",
             email="test@fhir.co",
             date='2020-11-10',
-            groups_id=[(6, 0, [self.group_test.id, partner_manager.id])]
+            groups_id=[(6, 0, [self.group_doctor.id, partner_manager.id])]
         ))
         self.context_patient = {'no_interoperate': True}
         self.paciente = self.model.with_context(self.context_patient).create(
