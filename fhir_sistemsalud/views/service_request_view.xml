@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-
-
-
 	<record id = "service_request_action_view" model="ir.actions.act_window">
 		<field name = "name">Solicitudes de servicio</field>
 		<field name = "res_model">fhir.service_request</field>

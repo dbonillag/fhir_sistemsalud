@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 class Priority(models.Model):
     _name = "fhir.priority"
-    _description = "description"
+    _description = "fhir.priority"
     _rec_name = 'name'
 
     internal_code = fields.Char(string='Codigo interno')

@@ -103,7 +103,7 @@ class TestPaciente(TransactionCase):
 
         # No permitir crear pacientes de parte de un administrador
         with self.assertRaises(AccessError):
-            usr = self.inv_user.id
+            usr = self.admin_user.id
             self.paciente2 = self.model.sudo(usr).with_context(
                 self.context_patient).create(
                 {

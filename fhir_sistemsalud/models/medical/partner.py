@@ -12,7 +12,7 @@ class PartnerFHIR(models.Model):
     # contacto puede ser paciente, medico u organización
     _inherit = "res.partner"
 
-    _description = "description"
+    _description = "res.partner"
 
     _rec_name = 'name'
 

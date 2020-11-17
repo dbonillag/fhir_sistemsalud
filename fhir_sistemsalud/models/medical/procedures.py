@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 class Procedures(models.Model):
     _name = "fhir.procedures"
-    _description = "description"
+    _description = "fhir.procedures"
 
     # cups_code = fields.Char(string = 'Codigo CUPS')
     cr_id = fields.Many2one("fhir.clinical_record", string='Registro clinico')

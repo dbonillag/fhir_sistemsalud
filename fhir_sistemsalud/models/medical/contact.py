@@ -5,7 +5,7 @@ from odoo import fields, models
 
 class Contact(models.Model):
     _name = "fhir.contact"
-    _description = "description"
+    _description = "fhir.contact"
 
     code = fields.Char(string="Codigo")
     partner_id = fields.Many2one(string="Contacto", comodel_name="res.partner")

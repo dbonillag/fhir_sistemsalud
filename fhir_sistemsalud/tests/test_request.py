@@ -92,7 +92,7 @@ class TestRequest(TransactionCase):
         # No permitir crear solicitudes de
         # servicio de parte de un administrador
         with self.assertRaises(AccessError):
-            usr = self.inv_user.id
+            usr = self.admin_user.id
             self.request2 = self.model.sudo(usr).create(
                 {
                     'code': 'test_002',

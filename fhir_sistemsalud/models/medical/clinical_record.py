@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 class ClinicalRecord(models.Model):
     _name = "fhir.clinical_record"
-    _description = "description"
+    _description = "fhir.clinical_record"
 
     code = fields.Char(string='Codigo')
     patient_id = fields.Many2one("res.partner",

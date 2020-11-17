@@ -5,7 +5,7 @@ from odoo import fields, models
 
 class Diagnoses(models.Model):
     _name = "fhir.diagnoses"
-    _description = "description"
+    _description = "fhir.diagnoses"
 
     diagnostic_id = fields.Many2one("fhir.diagnostic",
                                     string='Diagnostico')

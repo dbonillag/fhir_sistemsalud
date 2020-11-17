@@ -5,7 +5,7 @@ from odoo import fields, models
 
 class DiagnosticType(models.Model):
     _name = "fhir.diagnostic_type"
-    _description = "description"
+    _description = "fhir.diagnostic_type"
     _rec_name = 'name'
 
     internal_code = fields.Char(string='Codigo interno')

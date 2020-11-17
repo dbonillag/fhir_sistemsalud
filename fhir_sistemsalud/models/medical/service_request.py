@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 class ServiceRequest(models.Model):
     _name = "fhir.service_request"
-    _description = "description"
+    _description = "fhir.service_request"
 
     code = fields.Char(string="Codigo")
     patient_id = fields.Many2one("res.partner",
