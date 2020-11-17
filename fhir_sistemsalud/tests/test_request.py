@@ -79,7 +79,7 @@ class TestRequest(TransactionCase):
 
     def test_crear(self):
 
-        # Validar que un paciente se pueda crear con el usuario enfermera
+        # Validar que una solicitud de servicio se pueda crear con el usuario enfermera
         usr = self.nurse_user.id
         self.request1 = self.model.sudo(usr).create(
             {
@@ -88,7 +88,7 @@ class TestRequest(TransactionCase):
             }
         )
 
-        # No permitir crear pacientes de parte de un administrador
+        # No permitir crear solicitudes de servicio de parte de un administrador
         with self.assertRaises(AccessError):
             usr = self.inv_user.id
             self.request2 = self.model.sudo(usr).create(
@@ -98,7 +98,7 @@ class TestRequest(TransactionCase):
                 }
             )
 
-        # No permitir crear pacientes de parte de un doctor
+        # No permitir crear solicitudes de servicio de parte de un doctor
         with self.assertRaises(AccessError):
             usr = self.doctor_user.id
             self.request3 = self.model.sudo(usr).create(
@@ -115,12 +115,12 @@ class TestRequest(TransactionCase):
         self.request.sudo(usr).write({'state': state})
         self.assertEqual(self.request.state, state)
 
-        # No permite al administrador modificar pacientes
+        # No permite al administrador modificar solicitudes de servicio
         with self.assertRaises(AccessError):
             usr = self.admin_user.id
             self.request.sudo(usr).write({'state': state})
 
-        # No permite al doctro modificar pacientes
+        # No permite al doctro modificar solicitudes de servicio
         with self.assertRaises(AccessError):
             usr = self.doctor_user.id
             self.request.sudo(usr).write({'state': state})
