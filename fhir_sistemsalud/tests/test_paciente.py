@@ -87,7 +87,8 @@ class TestPaciente(TransactionCase):
 
         # Validar que un paciente se pueda crear con el usuario enfermera
         usr = self.nurse_user.id
-        self.paciente1 = self.model.sudo(usr).with_context(self.context_patient).create(
+        self.paciente1 = self.model.sudo(usr).with_context(
+            self.context_patient).create(
             {
                 'ref': 'test_001',
                 'name_1': 'paciente',
@@ -103,7 +104,8 @@ class TestPaciente(TransactionCase):
         # No permitir crear pacientes de parte de un administrador
         with self.assertRaises(AccessError):
             usr = self.inv_user.id
-            self.paciente2 = self.model.sudo(usr).with_context(self.context_patient).create(
+            self.paciente2 = self.model.sudo(usr).with_context(
+                self.context_patient).create(
                 {
                     'ref': 'test_002',
                     'name_1': 'paciente',
@@ -119,7 +121,8 @@ class TestPaciente(TransactionCase):
         # No permitir crear pacientes de parte de un doctor
         with self.assertRaises(AccessError):
             usr = self.doctor_user.id
-            self.paciente3 = self.model.sudo(usr).with_context(self.context_patient).create(
+            self.paciente3 = self.model.sudo(usr).with_context(
+                self.context_patient).create(
                 {
                     'ref': 'test_003',
                     'name_1': 'paciente',

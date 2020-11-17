@@ -79,7 +79,8 @@ class TestRequest(TransactionCase):
 
     def test_crear(self):
 
-        # Validar que una solicitud de servicio se pueda crear con el usuario enfermera
+        # Validar que una solicitud de servicio se
+        # pueda crear con el usuario enfermera
         usr = self.nurse_user.id
         self.request1 = self.model.sudo(usr).create(
             {
@@ -88,7 +89,8 @@ class TestRequest(TransactionCase):
             }
         )
 
-        # No permitir crear solicitudes de servicio de parte de un administrador
+        # No permitir crear solicitudes de
+        # servicio de parte de un administrador
         with self.assertRaises(AccessError):
             usr = self.inv_user.id
             self.request2 = self.model.sudo(usr).create(
