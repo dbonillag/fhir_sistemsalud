@@ -39,19 +39,20 @@ class PartnerFHIR(models.Model):
     def create(self, vals):
         context = self._context
 
-        if vals.get('is_patient', False):
-            if not vals.get('name', False):
-                raise ValidationError('Ingrese el nombre completo')
-            if not vals.get('name_1', False):
+        if vals.get('name', '') == '' and not vals.get('is_company', False):
+            if not vals.get('name_1', '') == '':
                 raise ValidationError('Ingrese el primer nombre')
-            if not vals.get('lastname_1', False):
+            if not vals.get('lastname_1', '') == '':
                 raise ValidationError('Ingrese el primer apellido')
-            if not vals.get('gender', False):
-                raise ValidationError('Ingrese el genero')
-            res = super(PartnerFHIR, self).create(vals)
-            if not context.get('no_interoperate', False):
-                res.id_fhir = self.env['fhir.i15d.patient'].post_patient(res)
-            return res
+            vals['name'] = vals.get('name_1', '') + vals.get('name_2', '') \
+                + vals.get('lastname_1', '') + vals.get('lastname_2', '')
+            if vals.get('is_patient', False):
+                if not vals.get('gender', False):
+                    raise ValidationError('Ingrese el genero')
+                res = super(PartnerFHIR, self).create(vals)
+                if not context.get('no_interoperate', False):
+                    res.id_fhir = self.env['fhir.i15d.patient'].post_patient(res)
+                return res
         else:
             res = super(PartnerFHIR, self).create(vals)
             return res

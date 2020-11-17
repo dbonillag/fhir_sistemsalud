@@ -21,23 +21,27 @@
 
             <xpath expr="//field[@name='name']" position="attributes">
                
-                <attribute name="attrs">{'required' : [('company_type', 'in', [False, True])]}</attribute>
+                <attribute name="attrs">{'required' : [('company_type', '=', 'company')],
+                                         'invisible' : [('company_type', '=', 'person')]}</attribute>
 
             </xpath>
             <xpath expr="//notebook" position="inside">
-                <page string = "Salud">
+                <page string = "Datos personales">
                 <group name ="fhir">
                     <group>
 
-                        <field name="name_1" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
+                        <field name="name_1" attrs = "{'invisible' : [('company_type', '=', 'company')],
+                                                       'required' : [('is_patient', '=', True)]}"/>
                         <field name="name_2" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
                         <field name="is_patient" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
                         <field name="is_insurer" attrs = "{'invisible' : [('company_type', '=', 'person')]}"/>
                     </group>
                     <group>
-                        <field name="lastname_1" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
+                        <field name="lastname_1" attrs = "{'invisible' : [('company_type', '=', 'company')],
+                                                           'required' : [('is_patient', '=', True)]}"/>
                         <field name="lastname_2" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
-                        <field name="gender"  attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
+                        <field name="gender"  attrs = "{'invisible' : [('company_type', '=', 'company')],
+                                                        'required' : [('is_patient', '=', True)]}"/>
                         <field name="is_doctor"  attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
                     </group>
 
