@@ -5,10 +5,13 @@
 [![SonarCloud Maintainability](https://sonarcloud.io/api/project_badges/measure?project=dbonillag_fhir_sistemsalud&metric=sqale_rating)](https://sonarcloud.io/component_measures/metric/new_maintainability_rating/list?id=dbonillag_fhir_sistemsalud)
 [![Code smells](https://sonarcloud.io/api/project_badges/measure?project=dbonillag_fhir_sistemsalud&metric=code_smells)](https://sonarcloud.io/component_measures/metric/sqale_rating/list?id=dbonillag_fhir_sistemsalud)
 [![Technical debt](https://sonarcloud.io/api/project_badges/measure?project=dbonillag_fhir_sistemsalud&metric=sqale_index)](https://sonarcloud.io/component_measures/metric/sqale_rating/list?id=dbonillag_fhir_sistemsalud)
+[![codecov](https://codecov.io/gh/dbonillag/fhir_sistemsalud/branch/main/graph/badge.svg)](https://codecov.io/gh/dbonillag/fhir_sistemsalud)
 
 # FHIR SistemSalud
+_**Sistema de interoperabilidad hecho con el estándar FHIR**_
+##Estudiantes:
+- **Daniel Bonilla Guevara** dbonillag_1@uqvirtual.edu.co
+- **Álvaro Sebastián Tabares Gaviria** astabaresg@uqvirtual.edu.co
 
-Sistema de interoperabilidad hecho con el estándar FHIR
-Estudiantes:
-Daniel Bonilla Guevara dbonillag_1@uqvirtual.edu.co
-Álvaro Sebastián Tabares Gaviria astabaresg@uqvirtual.edu.co
+##Docente a cargo:
+- **Fáber Danilo Giraldo Velásquez** fdgiraldo@uniquindio.edu.co
