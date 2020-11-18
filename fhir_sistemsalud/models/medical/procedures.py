@@ -11,7 +11,6 @@ class Procedures(models.Model):
     _name = "fhir.procedures"
     _description = "fhir.procedures"
 
-    # cups_code = fields.Char(string = 'Codigo CUPS')
     cr_id = fields.Many2one("fhir.clinical_record", string='Registro clinico')
     activity_id = fields.Many2one("product.product", string='Actividad')
     quantity = fields.Float(string='Cantidad')

@@ -32,8 +32,10 @@
             <form delete='false' create='false' >
 
             	<header>
-            		<button name="close_encounter" string = "Finalizar consulta" type="object" class="oe_highlight" attrs = "{'invisible' : [('state', '!=', 'new')]}"/>
-            		<button name="search_network" string = "Buscar en la red" type="object" class="oe_highlight"/>
+					<field name='state' invisible="1"/>
+            		<button name="close_encounter" string = "Finalizar consulta" type="object" class="oe_highlight" attrs = "{'invisible' : [('state', '!=', 'new')]}" groups="fhir_sistemsalud.group_fhir_doctor"/>
+            		<button name="search_network" string = "Buscar en la red" type="object" class="oe_highlight" groups="fhir_sistemsalud.group_fhir_doctor"/>
+					<button name="fix_clinical_record" string="Corregir historia clinica" type="object" class="oe_highlight" groups="fhir_sistemsalud.group_fhir_doctor" attrs = "{'invisible' : [('state', '!=', 'accepted')]}"/>
             	</header>
             	<sheet>
             		<field name="state" invisible="1"/>

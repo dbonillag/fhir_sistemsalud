@@ -7,6 +7,8 @@ from odoo import fields, models, api
 
 _logger = logging.getLogger(__name__)
 
+ir_config_parameter = 'ir.config_parameter'
+
 
 class FHIRServerSettings(models.TransientModel):
     _inherit = 'res.config.settings'
@@ -16,18 +18,18 @@ class FHIRServerSettings(models.TransientModel):
 
     def set_values(self):
         res = super(FHIRServerSettings, self).set_values()
-        self.env['ir.config_parameter'].sudo().set_param(
+        self.env[ir_config_parameter].sudo().set_param(
             'fhir.fhir_server_url', self.fhir_server_url)
-        self.env['ir.config_parameter'].sudo().set_param(
+        self.env[ir_config_parameter].sudo().set_param(
             'fhir.fhir_access_token', self.fhir_access_token)
         return res
 
     @api.model
     def get_values(self):
         res = super(FHIRServerSettings, self).get_values()
-        ICPSudo = self.env['ir.config_parameter'].sudo()
-        fhir_server_url = ICPSudo.get_param('fhir.fhir_server_url')
-        fhir_access_token = ICPSudo.get_param('fhir.fhir_access_token')
+        icp_sudo = self.env[ir_config_parameter].sudo()
+        fhir_server_url = icp_sudo.get_param('fhir.fhir_server_url')
+        fhir_access_token = icp_sudo.get_param('fhir.fhir_access_token')
         res.update(
             fhir_server_url=fhir_server_url,
             fhir_access_token=fhir_access_token

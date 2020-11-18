@@ -39,21 +39,16 @@ class PartnerFHIR(models.Model):
     @api.model
     def create(self, vals):
 
-        _logger.info('nombre {}'.format(vals.get('name', False)))
-
         if vals.get('name', False) is False and vals.get('company_type',
                                                          'person'):
-            _logger.info(u'Es persona')
+
             if not vals.get('name_1'):
                 raise ValidationError('Ingrese el primer nombre')
             if not vals.get('lastname_1'):
                 raise ValidationError('Ingrese el primer apellido')
 
-            vals['name'] = (vals.get('name_1', '') or '') + " " + \
-                           (vals.get('name_2', '') or '') + " " + \
-                           (vals.get('lastname_1', '') or '') + " " + \
-                           (vals.get('lastname_2', '') or '')
-            _logger.info('nombre {}'.format(vals.get('name', False)))
+            vals['name'] = self.write_name()
+
             if vals.get('is_patient'):
                 if not vals.get('gender', False):
                     raise ValidationError('Ingrese el genero')
@@ -64,7 +59,7 @@ class PartnerFHIR(models.Model):
                         .post_patient(res)
                 return res
         else:
-            _logger.info(u'Es compañia')
+
             res = super(PartnerFHIR, self).create(vals)
             return res
 

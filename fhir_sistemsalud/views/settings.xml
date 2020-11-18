@@ -22,23 +22,6 @@
                 </sheet>
             </form>
 
-<!--             <xpath expr="//div[hasclass('settings')]" position="inside">
-                <div class="app_settings_block"
-                     data-string="Medical" data-key="configuration"
-                     groups="fhir_sistemsalud.group_fhir_administrator">
-                    <h2><i class="fa fa-user-md" aria-hidden="true"/> Servidor FHIR</h2>
-                    <div class="row mt16 o_settings_container" id="fhir_server">
-                        <div class="col-xs-12 col-md-6 o_setting_box">
-                            
-                              <field name="fhir_server_url"/>
-                                <field name="fhir_access_token"/> 
-                                
-                           
-                        </div>
-                    </div>
-                    
-                </div>
-            </xpath> -->
         </field>
     </record>
 
