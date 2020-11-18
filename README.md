@@ -9,9 +9,9 @@
 
 # FHIR SistemSalud
 _**Sistema de interoperabilidad hecho con el estándar FHIR**_
-##Estudiantes:
+## Estudiantes:
 - **Daniel Bonilla Guevara** dbonillag_1@uqvirtual.edu.co
 - **Álvaro Sebastián Tabares Gaviria** astabaresg@uqvirtual.edu.co
 
-##Docente a cargo:
+## Docente a cargo:
 - **Fáber Danilo Giraldo Velásquez** fdgiraldo@uniquindio.edu.co
