@@ -7,7 +7,7 @@ addons:
   sonarcloud:
     organization: "fhirsistemsalud"
     token:
-      secure:  $SONAR_TOKEN
+      secure:  "gytBMn6itfSCs6ObXbYiz45rNfYM4QKcKhj2m+G0uarenxTr6ywACf0jt9ngpXUXZceO1oOW+VQAtY6oG05DY4NNMPZXAFPePj2y/OVVGEMx24/MDgCsctyK4MymjE5ykzJKKdvzOL3ZC+t26cbzXWsEtpTxMAcPiBa0QLhV5zWRqvJ0VUtePn5mNYoa91+Qoc4Lzc1uav3X9QXeJXnLRX6vXiOUsSk7H+P4fxMd6RDjmfutuVhqS6dnHnb+vboHaoM9dHhVwC4HoSeIY/x2CR8UCpSV3R/xtY9ZHKM9gT7fPuL/CIIyJAv7IzKyz1h5CNY1br6RjjZ/yGRh7v200kM9yUFRtJcDZgHc8YmOIPn8Cafu7SNJP39jogCk0EyPFuoegQGPqGO9h8FE+Le/OgYVEfL/gXBj026+Qmo32nKNz/ZBpO2TP883BVQGbg0B0yVudVIm7/KQaDB48qTfemjSAFvOb3L/gdqigQoq7obvMdMlwYVoQTx2KB5Jdks+SNQRc2VmSfURzaqPB9hdTmYdfv8QwXt6TJ46QqWRigjNYw76W0rSLkRbyyAVJE4WDV5zs26Q8sucECdzfoywnqOPJeUjjPr/2glw6SyLdjnYR3PaabYK24ryeM92xmXQJd1J/Ry5VGcK+PeMEcgOA+GHqiOslk/033draaszx4A="
   apt:
     packages:
       - expect-dev  # provides unbuffer utility
