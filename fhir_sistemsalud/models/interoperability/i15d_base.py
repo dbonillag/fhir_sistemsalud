@@ -21,6 +21,3 @@ class I15dBase(models.Model):
             'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json'
         }
-
-    def get_token(self):
-                
