@@ -7,7 +7,7 @@ addons:
   sonarcloud:
     organization: "fhirsistemsalud"
     token:
-      secure:  "22184881e19503e89c89f42330e756ea9ffdc3ce"
+      secure:  $SONAR_TOKEN
   apt:
     packages:
       - expect-dev  # provides unbuffer utility
