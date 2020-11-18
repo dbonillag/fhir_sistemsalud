@@ -4,6 +4,10 @@ cache: pip
 addons:
   postgresql: "9.6"
   ssh_known_hosts: 157.245.80.19
+  sonarcloud:
+    organization: "fhirsistemsalud"
+    token:
+      secure:  22184881e19503e89c89f42330e756ea9ffdc3ce
   apt:
     packages:
       - expect-dev  # provides unbuffer utility
@@ -48,9 +52,10 @@ install:
 
 script:
   - travis_run_tests
-  - ssh deploy@157.245.80.19 /home/deploy/update.sh
-  - ssh deploy@157.245.80.19 sudo /home/deploy/autodeploy.sh
 
 
 after_success:
   - travis_after_tests_success
+  - sonar-scanner # Ejecutar analisis sonar despues de pruebas Odoo-Travis. Evitar Problemas de Covertura incompleta
+  - ssh deploy@157.245.80.19 /home/deploy/update.sh
+  - ssh deploy@157.245.80.19 sudo /home/deploy/autodeploy.sh

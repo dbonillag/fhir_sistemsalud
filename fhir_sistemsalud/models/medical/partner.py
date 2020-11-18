@@ -21,10 +21,10 @@ class PartnerFHIR(models.Model):
     ref = fields.Char(string="Identificador")
     doctype_id = fields.Many2one("fhir.doctype",
                                  string="Tipo de documento")
-    name_1 = fields.Char(string="Primer nombre")
-    name_2 = fields.Char(string="Segundo nombre")
-    lastname_1 = fields.Char(string="Primer apellido")
-    lastname_2 = fields.Char(string="Segundo apellido")
+    name_1 = fields.Char(string="Primer nombre", default="")
+    name_2 = fields.Char(string="Segundo nombre", default="")
+    lastname_1 = fields.Char(string="Primer apellido", default="")
+    lastname_2 = fields.Char(string="Segundo apellido", default="")
     gender = fields.Selection([("male", "Masculino"),
                                ("female", "Femenino"),
                                ("other", "Otro"),
