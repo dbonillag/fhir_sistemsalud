@@ -5,9 +5,9 @@ addons:
   postgresql: "9.6"
   ssh_known_hosts: 157.245.80.19
   sonarcloud:
-    organization: "proyectoFHIR"
+    organization: "fhirsistemsalud"
     token:
-      secure:  22184881e19503e89c89f42330e756ea9ffdc3ce
+      secure:  "22184881e19503e89c89f42330e756ea9ffdc3ce"
   apt:
     packages:
       - expect-dev  # provides unbuffer utility
