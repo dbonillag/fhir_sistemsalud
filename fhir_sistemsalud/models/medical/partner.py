@@ -47,7 +47,7 @@ class PartnerFHIR(models.Model):
             if not vals.get('lastname_1'):
                 raise ValidationError('Ingrese el primer apellido')
 
-            vals['name'] = self.write_name()
+            vals['name'] = self.write_name(vals)
 
             if vals.get('is_patient'):
                 if not vals.get('gender', False):
