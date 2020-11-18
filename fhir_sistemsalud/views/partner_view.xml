@@ -31,18 +31,20 @@
                     <group>
 
                         <field name="name_1" attrs = "{'invisible' : [('company_type', '=', 'company')],
-                                                       'required' : [('is_patient', '=', True)]}"/>
+                                                       'required' : [('company_type', '=', 'person')]}"/>
                         <field name="name_2" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
                         <field name="is_patient" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
                         <field name="is_insurer" attrs = "{'invisible' : [('company_type', '=', 'person')]}"/>
                     </group>
                     <group>
                         <field name="lastname_1" attrs = "{'invisible' : [('company_type', '=', 'company')],
-                                                           'required' : [('is_patient', '=', True)]}"/>
+                                                           'required' : [('company_type', '=', 'person')]}"/>
                         <field name="lastname_2" attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
                         <field name="gender"  attrs = "{'invisible' : [('company_type', '=', 'company')],
                                                         'required' : [('is_patient', '=', True)]}"/>
                         <field name="is_doctor"  attrs = "{'invisible' : [('company_type', '=', 'company')]}"/>
+                        <field name="interoperate" attrs="{'invisible' : [('company_type', '=', 'company')]}"
+                               groups="base.group_system"/>
                     </group>
 
                 </group>

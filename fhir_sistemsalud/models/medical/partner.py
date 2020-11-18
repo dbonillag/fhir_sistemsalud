@@ -16,6 +16,8 @@ class PartnerFHIR(models.Model):
 
     _rec_name = 'name'
 
+    name = fields.Char(index=True, required=False)
+
     ref = fields.Char(string="Identificador")
     doctype_id = fields.Many2one("fhir.doctype",
                                  string="Tipo de documento")
@@ -32,30 +34,51 @@ class PartnerFHIR(models.Model):
     is_doctor = fields.Boolean(string="Es Medico")
     is_insurer = fields.Boolean(string="Es asegurador")
     id_fhir = fields.Char(string="Id en el servidor FHIR")
-    name = fields.Char(string="Nombre",
-                       required=False)
+    interoperate = fields.Boolean(string='Interoperar', default=True)
 
     @api.model
     def create(self, vals):
-        context = self._context
 
-        if vals.get('name', '') == '' and not vals.get('is_company', False):
-            if not vals.get('name_1', '') == '':
+        _logger.info('nombre {}'.format(vals.get('name', False)))
+
+        if vals.get('name', False) is False and vals.get('company_type',
+                                                         'person'):
+            _logger.info(u'Es persona')
+            if not vals.get('name_1'):
                 raise ValidationError('Ingrese el primer nombre')
-            if not vals.get('lastname_1', '') == '':
+            if not vals.get('lastname_1'):
                 raise ValidationError('Ingrese el primer apellido')
-            vals['name'] = vals.get('name_1', '') + vals.get('name_2', '') \
-                + vals.get('lastname_1', '') + vals.get('lastname_2', '')
-            if vals.get('is_patient', False):
+
+            vals['name'] = (vals.get('name_1', '') or '') + " " + \
+                           (vals.get('name_2', '') or '') + " " + \
+                           (vals.get('lastname_1', '') or '') + " " + \
+                           (vals.get('lastname_2', '') or '')
+            _logger.info('nombre {}'.format(vals.get('name', False)))
+            if vals.get('is_patient'):
                 if not vals.get('gender', False):
                     raise ValidationError('Ingrese el genero')
                 res = super(PartnerFHIR, self).create(vals)
-                if not context.get('no_interoperate', False):
-                    res.id_fhir = self.env['fhir.i15d.patient'].post_patient(res)
+
+                if res.interoperate:
+                    res.id_fhir = self.env['fhir.i15d.patient'] \
+                        .post_patient(res)
                 return res
         else:
+            _logger.info(u'Es compañia')
             res = super(PartnerFHIR, self).create(vals)
             return res
+
+    @api.multi
+    def write(self, vals):
+        vals['name'] = self.write_name(vals)
+        super(PartnerFHIR, self).write(vals)
+
+    def write_name(self, vals):
+        name = (vals.get('name_1') or self.name_1) + " " + \
+               (vals.get('name_2') or self.name_2) + " " + \
+               (vals.get('lastname_1') or self.lastname_1) + " " + \
+               (vals.get('lastname_2') or self.lastname_2)
+        return name
 
     @api.multi
     def search_network(self):

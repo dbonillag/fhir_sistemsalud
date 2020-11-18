@@ -78,7 +78,8 @@ class TestDiagnostic(TransactionCase):
         })
 
     def test_crear(self):
-        # Validar que un diagnostico se pueda crear con el usuario administrador
+        # Validar que un diagnostico se
+        # pueda crear con el usuario administrador
         usr = self.admin_user.id
         self.diagnostic1 = self.model.sudo(usr).create({
             'internal_code': 'test_001',
