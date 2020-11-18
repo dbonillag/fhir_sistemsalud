@@ -7,6 +7,8 @@ from odoo import api, fields, models
 _logger = logging.getLogger(__name__)
 
 MODEL = "fhir.clinical_record"
+
+
 class ClinicalRecord(models.Model):
     _name = MODEL
     _description = MODEL
