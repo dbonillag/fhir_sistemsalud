@@ -49,7 +49,7 @@ class ClinicalRecord(models.Model):
 
     @api.multi
     def close_encounter(self):
-        self.service_id.write({
+        self.service_id.sudo().write({
             'discharge_date': datetime.today(),
             'state': 'close'
         })

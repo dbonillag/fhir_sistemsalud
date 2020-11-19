@@ -24,7 +24,8 @@
         "data/sequence_data.xml",
         "data/test_data.xml",
         "data/diagnostic_type_data.xml",
-        "data/priority_data.xml"
+        "data/priority_data.xml",
+        "data/doctype_data.xml"
     ],
     # "demo": [],
     "application": True,
