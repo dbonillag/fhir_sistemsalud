@@ -56,7 +56,7 @@ class ClinicalRecord(models.Model):
 
         self.write({
             'code': self.env['ir.sequence'].
-            next_by_code('fhir.clinical_record'),
+            next_by_code(MODEL),
             'state': 'accepted'
         })
 
