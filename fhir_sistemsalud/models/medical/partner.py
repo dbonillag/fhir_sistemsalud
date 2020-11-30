@@ -69,10 +69,10 @@ class PartnerFHIR(models.Model):
         super(PartnerFHIR, self).write(vals)
 
     def write_name(self, vals):
-        name = (vals.get('name_1') or self.name_1) + " " + \
-               (vals.get('name_2') or self.name_2) + " " + \
-               (vals.get('lastname_1') or self.lastname_1) + " " + \
-               (vals.get('lastname_2') or self.lastname_2)
+        name = (vals.get('name_1', self.name_1) or "") + " " + \
+               (vals.get('name_2', self.name_2) or "") + " " + \
+               (vals.get('lastname_1', self.lastname_1) or "") + " " + \
+               (vals.get('lastname_2', self.lastname_2) or "")
         return name
 
     @api.multi
