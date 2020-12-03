@@ -13,11 +13,11 @@
             </xpath>
             
 
-            <xpath expr="//field[@name='name']" position="before">
+            <field name="name" position="before">
                 <field name="doctype_id" placeholder = "Tipo documento"/>
-                <field name="ref" placeholder = "Identificacion" required='1'/>
-   
-            </xpath>
+                <label for="ref" string="Numero de documento"/>
+                <field name="ref" help="Número de documento"/>
+            </field>
 
             <xpath expr="//field[@name='name']" position="attributes">
                
@@ -54,4 +54,21 @@
 
         </field>
     </record>
+
+    <record id="view_partner_filter" model="ir.ui.view">
+            <field name="name">Filtros de contactos</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"></field>
+            <field name="arch" type="xml">
+
+                <filter name="filter_my_partners" position="after">
+                    <separator/>
+                    <group>
+                        <filter string="Pacientes" name="patient_filter" domain="[('is_patient','=',True)]"/>
+                        <filter string="Médicos" name="doctor_filter" domain="[('is_doctor','=',True)]"/>
+                        <filter string="Aseguradoras" name="insurer_filter" domain="[('is_insurer','=',True)]"/>
+                    </group>
+                </filter>
+            </field>
+        </record>
 </odoo>

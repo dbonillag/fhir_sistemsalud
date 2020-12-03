@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    
-
-    <record id="fhir_config_settings_view_form" model="ir.ui.view">
+    <record id="res_config_settings_view_form" model="ir.ui.view">
         <field name="name">fhir.config.settings</field>
         <field name="model">res.config.settings</field>
-        
+        <field name="priority" eval="10"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <form >
-                <sheet>
-                    <header>
-                            <button class="oe_highlight" name="execute" string="Aplicar Cambios" type="object"/>                      
-                            <button class="oe_highlight" name="cancel" string="Cancelar" type="object"/>
-                    </header>
-                    <group>
-                        <field name="fhir_server_url" />
-                        <field name="fhir_access_token" password="True"/>
-                        
-                    </group>
-                </sheet>
-            </form>
-
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Centro de salud" string="Centro de salud" data-key="fhir_sistemsalud">
+                    <h2>Servidor FHIR</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="o_setting_left_pane">
+                            <label for="fhir_server_url" string="URL"/>
+                            <field name="fhir_server_url" />
+                            <label for="fhir_access_token" string="Token de acceso"/>
+                            <field name="fhir_access_token"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
         </field>
     </record>
 
     <record id = "server_action_view" model="ir.actions.act_window">
         <field name = "name">Servidor FHIR</field>
         <field name = "res_model">res.config.settings</field>
-        
-        <field name = "view_id" ref = "fhir_config_settings_view_form" />      
+        <field name = "type">ir.actions.act.window</field>
+        <field name = "view_id" ref="res_config_settings_view_form"/>
         <field name = "view_mode">form</field>
         <field name = "target">inline</field>
         <field name = "context">{'module' : 'fhir_sistemsalud'}</field>

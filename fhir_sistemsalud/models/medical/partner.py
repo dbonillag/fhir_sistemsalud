@@ -18,9 +18,9 @@ class PartnerFHIR(models.Model):
 
     name = fields.Char(index=True, required=False)
 
-    ref = fields.Char(string="Identificador")
-    doctype_id = fields.Many2one("fhir.doctype",
-                                 string="Tipo de documento")
+    ref = fields.Char(string="Numero de documento", required=True,
+                      help="Numero de documento")
+    doctype_id = fields.Many2one("fhir.doctype", string="Tipo de documento")
     name_1 = fields.Char(string="Primer nombre", default="")
     name_2 = fields.Char(string="Segundo nombre", default="")
     lastname_1 = fields.Char(string="Primer apellido", default="")
@@ -34,7 +34,11 @@ class PartnerFHIR(models.Model):
     is_doctor = fields.Boolean(string="Es Medico")
     is_insurer = fields.Boolean(string="Es asegurador")
     id_fhir = fields.Char(string="Id en el servidor FHIR")
-    interoperate = fields.Boolean(string='Interoperar', default=True)
+    interoperate = fields.Boolean(string='Interoperar', default=False)
+
+    _sql_constraints = [
+        ('ref_unique', 'UNIQUE(ref)',
+         'El numero del documento no se debe repetir')]
 
     @api.model
     def create(self, vals):
@@ -58,10 +62,9 @@ class PartnerFHIR(models.Model):
                     res.id_fhir = self.env['fhir.i15d.patient'] \
                         .post_patient(res)
                 return res
-        else:
-
-            res = super(PartnerFHIR, self).create(vals)
-            return res
+        # si no es un paciente entra acá
+        res = super(PartnerFHIR, self).create(vals)
+        return res
 
     @api.multi
     def write(self, vals):
@@ -80,10 +83,11 @@ class PartnerFHIR(models.Model):
         # busca el paciente en la red,
         # si existe,lo crea automaticamente
         ref = self.ref
+
         patient_dict = self.env['fhir.i15d.patient'].get_patient(ref)
         if patient_dict:
             # patient_dict['doctype_id'] = self.doctype_id.id
             self.write(patient_dict)
             return
-        raise ValidationError(
-            'No se encontró el paciente con el documento %s en la red' % ref)
+        raise ValidationError('No se encontró el paciente con el '
+                              'documento %s en la red' % ref)
